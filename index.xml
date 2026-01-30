@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>GlowStonee的博客</title>
+    <link>https://GlowStonee233.github.io/</link>
+    <description>Recent content on GlowStonee的博客</description>
+    <generator>Hugo -- 0.154.5</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 30 Jan 2026 20:48:50 +0800</lastBuildDate>
+    <atom:link href="https://GlowStonee233.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的 WSL C语言环境备忘录</title>
+      <link>https://GlowStonee233.github.io/posts/%E6%88%91%E7%9A%84-wsl-c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E5%A4%87%E5%BF%98%E5%BD%95/</link>
+      <pubDate>Fri, 30 Jan 2026 20:48:50 +0800</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/%E6%88%91%E7%9A%84-wsl-c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E5%A4%87%E5%BF%98%E5%BD%95/</guid>
+      <description>为备战C语言考试，也为日常开发，我基于 WSL 搭建了一套 C 语言环境。这篇备忘录记录了从 GDB 命令行手动捉虫，到 VS Code 一键调试的全流程配置，防止以后自己忘记。</description>
+    </item>
+    <item>
+      <title>Git 配置代理备忘录：解决 GitHub 连接超时与访问失败问题</title>
+      <link>https://GlowStonee233.github.io/posts/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Tue, 27 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</guid>
+      <description>记录了如何通过配置 SSH 和 HTTPS 代理，一劳永逸地解决因网络问题导致的 Git 推送或拉取 GitHub 仓库失败的问题。</description>
+    </item>
+    <item>
+      <title>VS Code 个性化配置备忘录：提升编码效率与视觉体验</title>
+      <link>https://GlowStonee233.github.io/posts/vscode%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 27 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/vscode%E9%85%8D%E7%BD%AE/</guid>
+      <description>记录了几个提升 VS Code 编码效率的关键配置，并详细介绍了如何通过 Background 插件为编辑器设置自定义背景图，作为个人环境的美化备忘。</description>
+    </item>
+    <item>
+      <title>我的 Markdown 语法核心备忘录（含渲染效果）</title>
+      <link>https://GlowStonee233.github.io/posts/markdown%E7%AE%80%E5%8D%95%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Tue, 27 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/markdown%E7%AE%80%E5%8D%95%E5%85%A5%E9%97%A8/</guid>
+      <description>整理一份 Markdown 常用语法清单，并附上直观的渲染效果，作为个人速查备忘录，方便日常写作时快速查阅。</description>
+    </item>
+    <item>
+      <title>技术备忘：利用 Shell 脚本实现 Hugo 博客一键自动化部署</title>
+      <link>https://GlowStonee233.github.io/posts/hugo&#43;github-pages%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC%E5%A4%87%E5%BF%98%E5%BD%95/</link>
+      <pubDate>Tue, 27 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/hugo&#43;github-pages%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC%E5%A4%87%E5%BF%98%E5%BD%95/</guid>
+      <description>记录如何通过编写 Shell 脚本，将繁琐的 Hugo 手动构建与 Git 推送流程合并为“一键发布”，并重点排查了 HTTPS 凭证明文存储的安全隐患。</description>
+    </item>
+    <item>
+      <title>Git &amp; GitHub 高效入门指南：从代理加速到 SSH 免密</title>
+      <link>https://GlowStonee233.github.io/posts/github%E4%B8%8Egit%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Mon, 26 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/github%E4%B8%8Egit%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/</guid>
+      <description>一篇高效率的 Git &amp;amp; GitHub 新手入门备忘录。内容涵盖初始配置、代理加速、HTTPS 核心流程、SSH 免密配置，并附带常用命令速查表。</description>
+    </item>
+    <item>
+      <title>WSL 环境下 Hugo &#43; GitHub Pages 手动部署全记录</title>
+      <link>https://GlowStonee233.github.io/posts/hugo-&#43;-github-pages-%E6%89%8B%E5%8A%A8%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B%E5%A4%87%E5%BF%98%E5%BD%95/</link>
+      <pubDate>Mon, 26 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/hugo-&#43;-github-pages-%E6%89%8B%E5%8A%A8%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B%E5%A4%87%E5%BF%98%E5%BD%95/</guid>
+      <description>记录在 Windows Subsystem for Linux (WSL) 环境中搭建 Hugo (Extended) 博客，并完全通过 Git 命令手动管理发布流程的详细步骤与避坑指南。</description>
+    </item>
+  </channel>
+</rss>

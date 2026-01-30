@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Git &amp; GitHub 高效入门指南：从代理加速到 SSH 免密 | GlowStonee的博客</title>
+<meta name="keywords" content="Git, GitHub, 代理配置, SSH, 新手入门, 备忘录">
+<meta name="description" content="一篇高效率的 Git &amp; GitHub 新手入门备忘录。内容涵盖初始配置、代理加速、HTTPS 核心流程、SSH 免密配置，并附带常用命令速查表。">
+<meta name="author" content="">
+<link rel="canonical" href="https://GlowStonee233.github.io/posts/github%E4%B8%8Egit%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.207853a8fb75ed39750b8a2b4b4d614e87702d4558b744c05489607d9a964f85.css" integrity="sha256-IHhTqPt17Tl1C4orS01hTodwLUVYt0TAVIlgfZqWT4U=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://GlowStonee233.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://GlowStonee233.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://GlowStonee233.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://GlowStonee233.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://GlowStonee233.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://GlowStonee233.github.io/posts/github%E4%B8%8Egit%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://GlowStonee233.github.io/posts/github%E4%B8%8Egit%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">
+  <meta property="og:site_name" content="GlowStonee的博客">
+  <meta property="og:title" content="Git & GitHub 高效入门指南：从代理加速到 SSH 免密">
+  <meta property="og:description" content="一篇高效率的 Git &amp; GitHub 新手入门备忘录。内容涵盖初始配置、代理加速、HTTPS 核心流程、SSH 免密配置，并附带常用命令速查表。">
+  <meta property="og:locale" content="zh-cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-26T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-01-26T00:00:00+00:00">
+    <meta property="article:tag" content="Git">
+    <meta property="article:tag" content="GitHub">
+    <meta property="article:tag" content="代理配置">
+    <meta property="article:tag" content="SSH">
+    <meta property="article:tag" content="新手入门">
+    <meta property="article:tag" content="备忘录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git &amp; GitHub 高效入门指南：从代理加速到 SSH 免密">
+<meta name="twitter:description" content="一篇高效率的 Git &amp; GitHub 新手入门备忘录。内容涵盖初始配置、代理加速、HTTPS 核心流程、SSH 免密配置，并附带常用命令速查表。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://GlowStonee233.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Git \u0026 GitHub 高效入门指南：从代理加速到 SSH 免密",
+      "item": "https://GlowStonee233.github.io/posts/github%E4%B8%8Egit%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Git \u0026 GitHub 高效入门指南：从代理加速到 SSH 免密",
+  "name": "Git \u0026 GitHub 高效入门指南：从代理加速到 SSH 免密",
+  "description": "一篇高效率的 Git \u0026amp; GitHub 新手入门备忘录。内容涵盖初始配置、代理加速、HTTPS 核心流程、SSH 免密配置，并附带常用命令速查表。",
+  "keywords": [
+    "Git", "GitHub", "代理配置", "SSH", "新手入门", "备忘录"
+  ],
+  "articleBody": "刚接触 Git 和 GitHub 的新手，通常会遇到两大难题：一是国内网络环境下的连接超时，二是反复输入密码的繁琐。本篇笔记旨在提供一套清晰、高效的解决方案，并整理了常用命令速查表，作为个人备忘。\n1. 基础概念 Git：一个安装在本地的版本控制软件，如同代码的“时光机”，负责追踪文件变更。 GitHub：一个代码托管网站服务，如同存放“时光机”的云端保险库，用于同步、分享和协作。 2. 初始配置 开始前，请确保已完成以下基础设置。\n安装与注册\nGit 工具：访问 git-scm.com 下载并安装。 GitHub 账号：访问 github.com 注册一个账号。 配置个人信息 这是你的代码“署名”，至关重要。打开 Git Bash（或终端）执行：\n# 建议使用 GitHub 提供的匿名邮箱，可在 https://github.com/settings/emails 找到 git config --global user.name \"你的GitHub用户名\" git config --global user.email \"你的GitHub匿名邮箱\" 注意 user.name 最好和你的 GitHub 用户名保持一致，但不是强制的。user.email 则必须配置正确，否则可能无法将提交与你的 GitHub 账户关联起来。\n3. 网络加速：配置代理 为解决 git clone 或 git push 时的连接超时问题，最直接的方法是为 Git 配置代理。\n获取代理端口 在你的代理客户端（如 Clash, V2RayN）设置中找到 HTTP 或 SOCKS5 代理端口。常见端口有 7890/10808 (HTTP) 或 7891 (SOCKS5)。\n执行配置命令\n# 方案一：HTTP 代理 (将 7890 换成你的端口) git config --global http.proxy http://127.0.0.1:7890 git config --global https.proxy http://127.0.0.1:7890 # 方案二：SOCKS5 代理 (将 7891 换成你的端口) git config --global http.proxy socks5://127.0.0.1:7891 git config --global https.proxy socks5://127.0.0.1:7891 取消代理 如果不再需要，可使用 --unset 命令移除配置。\ngit config --global --unset http.proxy git config --global --unset https.proxy 4. 核心流程：第一个项目 (HTTPS) 我们以最通用的 HTTPS 方式走一遍完整流程。\n在 GitHub 创建仓库 点击右上角 + -\u003e New repository。建议勾选 Add a README file, Add .gitignore, 和 Choose a license。\n克隆到本地 在仓库页面，点击 \u003c\u003e Code 按钮，复制 HTTPS 标签下的地址。\n# 使用 HTTPS 地址克隆仓库 git clone https://github.com/your-username/my-first-repo.git # 进入项目目录 cd my-first-repo 克隆完成后，用你的代码编辑器（如 VS Code）打开这个项目文件夹，然后开始修改文件。\n修改与推送 本地修改文件后，在终端中执行“三板斧”操作：\n# 1. 添加所有变更到暂存区 git add . # 2. 提交变更，并附上说明 git commit -m \"feat: Add my first file\" # 3. 推送到 GitHub git push 补充：使用 VS Code 图形化操作 如果你使用 VS Code，上述“三板斧”操作也可以通过其图形界面完成。在左侧“源代码管理”面板中，点击文件旁的 + 号进行暂存 (add)，在输入框填写信息后按 ✔️ 完成提交 (commit)，最后点击“同步更改”按钮进行推送 (push)。\n注意：HTTPS 推送认证 首次 push 时，Git 会要求认证。此时在密码提示框中输入的不是你的 GitHub 登录密码，而是需要预先生成的 Personal Access Token (PAT)。你可以在 GitHub Token 设置页面 生成一个，至少勾选 repo 权限，然后复制 Token 用于认证（Token 只会展示一次，请及时复制）。\n5. 可选进阶：配置 SSH 实现免密 如果不想每次 push 都处理 PAT 认证，配置 SSH 密钥是最佳选择。\n生成并添加密钥\n生成密钥：在终端执行 ssh-keygen -t rsa -b 4096 -C \"你的GitHub匿名邮箱\"，然后一路回车。 添加公钥：执行 cat ~/.ssh/id_rsa.pub，复制全部输出内容。访问 GitHub SSH Keys 设置页面，点击 New SSH key，将复制的内容粘贴进去并保存。 测试与使用\n测试连接：执行 ssh -T git@github.com，看到欢迎信息即表示成功。 使用方式：此后 clone 仓库时，请务必复制 SSH 格式的地址 (git@github.com:...)，这样克隆的项目才能实现免密推送。 注意：SSH 与代理 git config 配置的 http.proxy 仅对 HTTPS 协议有效，不影响 SSH 协议。如果网络环境严苛到 SSH 协议也无法直连，则需为其单独配置代理（如修改 ~/.ssh/config 文件），这对新手较为复杂。因此，“HTTPS + 代理” 是最稳定通用的入门方案。\n6. Git 常用命令速查表 初始配置与创建 命令 说明 git config --global user.name \"你的姓名\" 设置全局用户名 (一次性) git config --global user.email \"你的邮箱\" 设置全局邮箱 (一次性) git init 在当前目录初始化新仓库 git clone \u003c仓库URL\u003e 克隆远程仓库到本地 日常工作 命令 说明 git status 查看工作区和暂存区的状态 git add \u003c文件名/目录\u003e 添加文件到暂存区 (使用 . 添加所有) git commit -m \"提交信息\" 提交暂存区的更改到本地仓库 git diff 查看工作区与暂存区的差异 git diff --staged 查看暂存区与上次提交的差异 分支操作 命令 说明 git branch 查看所有本地分支 git switch \u003c分支名\u003e 切换到指定分支 git switch -c \u003c新分支名\u003e 创建并切换到新分支 git branch -m \u003c新分支名\u003e 重命名当前分支 git merge \u003c分支名\u003e 将指定分支合并到当前分支 git branch -d \u003c分支名\u003e 删除已合并的分支 远程协作 命令 说明 git remote -v 查看已配置的远程仓库 git remote add \u003c远程名\u003e \u003c仓库URL\u003e 添加一个新的远程仓库 git pull 从远程仓库拉取并合并更新 git fetch 从远程仓库拉取更新，但不合并 git push 推送本地提交到远程仓库 历史与撤销 命令 说明 git log --oneline 单行简洁格式查看提交历史 git restore \u003c文件名\u003e 撤销工作区中对文件的修改 git restore --staged \u003c文件名\u003e 将文件从暂存区移回工作区 git revert 创建一个新提交来撤销指定提交 git reset --hard 强行重置到指定提交，丢弃之后的所有更改 暂存工作 命令 说明 git stash 临时保存未提交的修改 git stash pop 恢复并删除最近一次暂存的修改 7. 总结与避坑指南 网络问题用代理：遇到 Connection timed out，检查第 3 步的代理配置。 HTTPS 推送用 PAT：使用 HTTPS 协议时，认证密码是 Personal Access Token。 免密推送用 SSH：想省去输入 PAT 的麻烦，按第 5 步配置 SSH，并使用 SSH 地址克隆仓库。 代理不影响 SSH：牢记 http.proxy 管不了 SSH 协议的流量。 养成良好习惯：工作开始前 git pull，推送前 git commit -m \"清晰的说明\"。 ",
+  "wordCount" : "460",
+  "inLanguage": "en",
+  "datePublished": "2026-01-26T00:00:00Z",
+  "dateModified": "2026-01-26T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://GlowStonee233.github.io/posts/github%E4%B8%8Egit%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GlowStonee的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://GlowStonee233.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://GlowStonee233.github.io/" accesskey="h" title="GlowStonee的博客 (Alt + H)">GlowStonee的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://GlowStonee233.github.io/search/" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍 搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Git &amp; GitHub 高效入门指南：从代理加速到 SSH 免密
+    </h1>
+    <div class="post-meta"><span title='2026-01-26 00:00:00 +0000 UTC'>January 26, 2026</span>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#1-%e5%9f%ba%e7%a1%80%e6%a6%82%e5%bf%b5" aria-label="1. 基础概念">1. 基础概念</a></li>
+                <li>
+                    <a href="#2-%e5%88%9d%e5%a7%8b%e9%85%8d%e7%bd%ae" aria-label="2. 初始配置">2. 初始配置</a></li>
+                <li>
+                    <a href="#3-%e7%bd%91%e7%bb%9c%e5%8a%a0%e9%80%9f%e9%85%8d%e7%bd%ae%e4%bb%a3%e7%90%86" aria-label="3. 网络加速：配置代理">3. 网络加速：配置代理</a></li>
+                <li>
+                    <a href="#4-%e6%a0%b8%e5%bf%83%e6%b5%81%e7%a8%8b%e7%ac%ac%e4%b8%80%e4%b8%aa%e9%a1%b9%e7%9b%ae-https" aria-label="4. 核心流程：第一个项目 (HTTPS)">4. 核心流程：第一个项目 (HTTPS)</a></li>
+                <li>
+                    <a href="#5-%e5%8f%af%e9%80%89%e8%bf%9b%e9%98%b6%e9%85%8d%e7%bd%ae-ssh-%e5%ae%9e%e7%8e%b0%e5%85%8d%e5%af%86" aria-label="5. 可选进阶：配置 SSH 实现免密">5. 可选进阶：配置 SSH 实现免密</a></li>
+                <li>
+                    <a href="#6-git-%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4%e9%80%9f%e6%9f%a5%e8%a1%a8" aria-label="6. Git 常用命令速查表">6. Git 常用命令速查表</a><ul>
+                        
+                <li>
+                    <a href="#%e5%88%9d%e5%a7%8b%e9%85%8d%e7%bd%ae%e4%b8%8e%e5%88%9b%e5%bb%ba" aria-label="初始配置与创建">初始配置与创建</a></li>
+                <li>
+                    <a href="#%e6%97%a5%e5%b8%b8%e5%b7%a5%e4%bd%9c" aria-label="日常工作">日常工作</a></li>
+                <li>
+                    <a href="#%e5%88%86%e6%94%af%e6%93%8d%e4%bd%9c" aria-label="分支操作">分支操作</a></li>
+                <li>
+                    <a href="#%e8%bf%9c%e7%a8%8b%e5%8d%8f%e4%bd%9c" aria-label="远程协作">远程协作</a></li>
+                <li>
+                    <a href="#%e5%8e%86%e5%8f%b2%e4%b8%8e%e6%92%a4%e9%94%80" aria-label="历史与撤销">历史与撤销</a></li>
+                <li>
+                    <a href="#%e6%9a%82%e5%ad%98%e5%b7%a5%e4%bd%9c" aria-label="暂存工作">暂存工作</a></li></ul>
+                </li>
+                <li>
+                    <a href="#7-%e6%80%bb%e7%bb%93%e4%b8%8e%e9%81%bf%e5%9d%91%e6%8c%87%e5%8d%97" aria-label="7. 总结与避坑指南">7. 总结与避坑指南</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>刚接触 Git 和 GitHub 的新手，通常会遇到两大难题：一是国内网络环境下的连接超时，二是反复输入密码的繁琐。本篇笔记旨在提供一套清晰、高效的解决方案，并整理了常用命令速查表，作为个人备忘。</p>
+<h2 id="1-基础概念">1. 基础概念<a hidden class="anchor" aria-hidden="true" href="#1-基础概念">#</a></h2>
+<ul>
+<li><strong>Git</strong>：一个安装在本地的<strong>版本控制软件</strong>，如同代码的“时光机”，负责追踪文件变更。</li>
+<li><strong>GitHub</strong>：一个<strong>代码托管网站服务</strong>，如同存放“时光机”的云端保险库，用于同步、分享和协作。</li>
+</ul>
+<h2 id="2-初始配置">2. 初始配置<a hidden class="anchor" aria-hidden="true" href="#2-初始配置">#</a></h2>
+<p>开始前，请确保已完成以下基础设置。</p>
+<ul>
+<li>
+<p><strong>安装与注册</strong></p>
+<ul>
+<li><strong>Git 工具</strong>：访问 <a href="https://git-scm.com/">git-scm.com</a> 下载并安装。</li>
+<li><strong>GitHub 账号</strong>：访问 <a href="https://github.com/">github.com</a> 注册一个账号。</li>
+</ul>
+</li>
+<li>
+<p><strong>配置个人信息</strong>
+这是你的代码“署名”，至关重要。打开 Git Bash（或终端）执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 建议使用 GitHub 提供的匿名邮箱，可在 https://github.com/settings/emails 找到</span>
+</span></span><span style="display:flex;"><span>git config --global user.name <span style="color:#e6db74">&#34;你的GitHub用户名&#34;</span>
+</span></span><span style="display:flex;"><span>git config --global user.email <span style="color:#e6db74">&#34;你的GitHub匿名邮箱&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>
+<code>user.name</code> 最好和你的 GitHub 用户名保持一致，但不是强制的。<code>user.email</code> 则必须配置正确，否则可能无法将提交与你的 GitHub 账户关联起来。</p>
+</blockquote>
+<h2 id="3-网络加速配置代理">3. 网络加速：配置代理<a hidden class="anchor" aria-hidden="true" href="#3-网络加速配置代理">#</a></h2>
+<p>为解决 <code>git clone</code> 或 <code>git push</code> 时的连接超时问题，最直接的方法是为 Git 配置代理。</p>
+<ol>
+<li>
+<p><strong>获取代理端口</strong>
+在你的代理客户端（如 Clash, V2RayN）设置中找到 HTTP 或 SOCKS5 代理端口。常见端口有 <code>7890/10808</code> (HTTP) 或 <code>7891</code> (SOCKS5)。</p>
+</li>
+<li>
+<p><strong>执行配置命令</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 方案一：HTTP 代理 (将 7890 换成你的端口)</span>
+</span></span><span style="display:flex;"><span>git config --global http.proxy http://127.0.0.1:7890
+</span></span><span style="display:flex;"><span>git config --global https.proxy http://127.0.0.1:7890
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 方案二：SOCKS5 代理 (将 7891 换成你的端口)</span>
+</span></span><span style="display:flex;"><span>git config --global http.proxy socks5://127.0.0.1:7891
+</span></span><span style="display:flex;"><span>git config --global https.proxy socks5://127.0.0.1:7891
+</span></span></code></pre></div></li>
+<li>
+<p><strong>取消代理</strong>
+如果不再需要，可使用 <code>--unset</code> 命令移除配置。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global --unset http.proxy
+</span></span><span style="display:flex;"><span>git config --global --unset https.proxy
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="4-核心流程第一个项目-https">4. 核心流程：第一个项目 (HTTPS)<a hidden class="anchor" aria-hidden="true" href="#4-核心流程第一个项目-https">#</a></h2>
+<p>我们以最通用的 HTTPS 方式走一遍完整流程。</p>
+<ol>
+<li>
+<p><strong>在 GitHub 创建仓库</strong>
+点击右上角 <code>+</code> -&gt; <code>New repository</code>。建议勾选 <code>Add a README file</code>, <code>Add .gitignore</code>, 和 <code>Choose a license</code>。</p>
+</li>
+<li>
+<p><strong>克隆到本地</strong>
+在仓库页面，点击 <code>&lt;&gt; Code</code> 按钮，复制 <code>HTTPS</code> 标签下的地址。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 使用 HTTPS 地址克隆仓库</span>
+</span></span><span style="display:flex;"><span>git clone https://github.com/your-username/my-first-repo.git
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 进入项目目录</span>
+</span></span><span style="display:flex;"><span>cd my-first-repo
+</span></span></code></pre></div><p>克隆完成后，用你的代码编辑器（如 VS Code）打开这个项目文件夹，然后开始修改文件。</p>
+</li>
+<li>
+<p><strong>修改与推送</strong>
+本地修改文件后，在终端中执行“三板斧”操作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 1. 添加所有变更到暂存区</span>
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 提交变更，并附上说明</span>
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;feat: Add my first file&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 推送到 GitHub</span>
+</span></span><span style="display:flex;"><span>git push
+</span></span></code></pre></div><blockquote>
+<p><strong>补充：使用 VS Code 图形化操作</strong>
+如果你使用 VS Code，上述“三板斧”操作也可以通过其图形界面完成。在左侧“源代码管理”面板中，点击文件旁的 <code>+</code> 号进行暂存 (<code>add</code>)，在输入框填写信息后按 <code>✔️</code> 完成提交 (<code>commit</code>)，最后点击“同步更改”按钮进行推送 (<code>push</code>)。</p>
+</blockquote>
+<blockquote>
+<p><strong>注意：HTTPS 推送认证</strong>
+首次 <code>push</code> 时，Git 会要求认证。此时在密码提示框中输入的<strong>不是你的 GitHub 登录密码</strong>，而是需要预先生成的 <strong>Personal Access Token (PAT)</strong>。你可以在 <a href="https://github.com/settings/tokens/new">GitHub Token 设置页面</a> 生成一个，至少勾选 <code>repo</code> 权限，然后复制 Token 用于认证（Token 只会展示一次，请及时复制）。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="5-可选进阶配置-ssh-实现免密">5. 可选进阶：配置 SSH 实现免密<a hidden class="anchor" aria-hidden="true" href="#5-可选进阶配置-ssh-实现免密">#</a></h2>
+<p>如果不想每次 <code>push</code> 都处理 PAT 认证，配置 SSH 密钥是最佳选择。</p>
+<ol>
+<li>
+<p><strong>生成并添加密钥</strong></p>
+<ul>
+<li><strong>生成密钥</strong>：在终端执行 <code>ssh-keygen -t rsa -b 4096 -C &quot;你的GitHub匿名邮箱&quot;</code>，然后一路回车。</li>
+<li><strong>添加公钥</strong>：执行 <code>cat ~/.ssh/id_rsa.pub</code>，复制全部输出内容。访问 <a href="https://github.com/settings/keys">GitHub SSH Keys 设置页面</a>，点击 <code>New SSH key</code>，将复制的内容粘贴进去并保存。</li>
+</ul>
+</li>
+<li>
+<p><strong>测试与使用</strong></p>
+<ul>
+<li><strong>测试连接</strong>：执行 <code>ssh -T git@github.com</code>，看到欢迎信息即表示成功。</li>
+<li><strong>使用方式</strong>：此后 <code>clone</code> 仓库时，请务必复制 <code>SSH</code> 格式的地址 (<code>git@github.com:...</code>)，这样克隆的项目才能实现免密推送。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>注意：SSH 与代理</strong>
+<code>git config</code> 配置的 <code>http.proxy</code> <strong>仅对 HTTPS 协议有效</strong>，不影响 SSH 协议。如果网络环境严苛到 SSH 协议也无法直连，则需为其单独配置代理（如修改 <code>~/.ssh/config</code> 文件），这对新手较为复杂。因此，<strong>“HTTPS + 代理”</strong> 是最稳定通用的入门方案。</p>
+</blockquote>
+<h2 id="6-git-常用命令速查表">6. Git 常用命令速查表<a hidden class="anchor" aria-hidden="true" href="#6-git-常用命令速查表">#</a></h2>
+<h3 id="初始配置与创建">初始配置与创建<a hidden class="anchor" aria-hidden="true" href="#初始配置与创建">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>git config --global user.name &quot;你的姓名&quot;</code></td>
+          <td style="text-align: left">设置全局用户名 (一次性)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git config --global user.email &quot;你的邮箱&quot;</code></td>
+          <td style="text-align: left">设置全局邮箱 (一次性)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git init</code></td>
+          <td style="text-align: left">在当前目录初始化新仓库</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git clone &lt;仓库URL&gt;</code></td>
+          <td style="text-align: left">克隆远程仓库到本地</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="日常工作">日常工作<a hidden class="anchor" aria-hidden="true" href="#日常工作">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>git status</code></td>
+          <td style="text-align: left">查看工作区和暂存区的状态</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git add &lt;文件名/目录&gt;</code></td>
+          <td style="text-align: left">添加文件到暂存区 (使用 <code>.</code> 添加所有)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git commit -m &quot;提交信息&quot;</code></td>
+          <td style="text-align: left">提交暂存区的更改到本地仓库</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git diff</code></td>
+          <td style="text-align: left">查看工作区与暂存区的差异</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git diff --staged</code></td>
+          <td style="text-align: left">查看暂存区与上次提交的差异</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="分支操作">分支操作<a hidden class="anchor" aria-hidden="true" href="#分支操作">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>git branch</code></td>
+          <td style="text-align: left">查看所有本地分支</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git switch &lt;分支名&gt;</code></td>
+          <td style="text-align: left">切换到指定分支</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git switch -c &lt;新分支名&gt;</code></td>
+          <td style="text-align: left">创建并切换到新分支</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git branch -m &lt;新分支名&gt;</code></td>
+          <td style="text-align: left">重命名当前分支</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git merge &lt;分支名&gt;</code></td>
+          <td style="text-align: left">将指定分支合并到当前分支</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git branch -d &lt;分支名&gt;</code></td>
+          <td style="text-align: left">删除已合并的分支</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="远程协作">远程协作<a hidden class="anchor" aria-hidden="true" href="#远程协作">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>git remote -v</code></td>
+          <td style="text-align: left">查看已配置的远程仓库</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git remote add &lt;远程名&gt; &lt;仓库URL&gt;</code></td>
+          <td style="text-align: left">添加一个新的远程仓库</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git pull</code></td>
+          <td style="text-align: left">从远程仓库拉取并合并更新</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git fetch</code></td>
+          <td style="text-align: left">从远程仓库拉取更新，但不合并</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git push</code></td>
+          <td style="text-align: left">推送本地提交到远程仓库</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="历史与撤销">历史与撤销<a hidden class="anchor" aria-hidden="true" href="#历史与撤销">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>git log --oneline</code></td>
+          <td style="text-align: left">单行简洁格式查看提交历史</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git restore &lt;文件名&gt;</code></td>
+          <td style="text-align: left">撤销工作区中对文件的修改</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git restore --staged &lt;文件名&gt;</code></td>
+          <td style="text-align: left">将文件从暂存区移回工作区</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git revert &lt;commit-id&gt;</code></td>
+          <td style="text-align: left">创建一个新提交来撤销指定提交</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git reset --hard &lt;commit-id&gt;</code></td>
+          <td style="text-align: left">强行重置到指定提交，丢弃之后的所有更改</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="暂存工作">暂存工作<a hidden class="anchor" aria-hidden="true" href="#暂存工作">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">命令</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>git stash</code></td>
+          <td style="text-align: left">临时保存未提交的修改</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>git stash pop</code></td>
+          <td style="text-align: left">恢复并删除最近一次暂存的修改</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="7-总结与避坑指南">7. 总结与避坑指南<a hidden class="anchor" aria-hidden="true" href="#7-总结与避坑指南">#</a></h2>
+<ol>
+<li><strong>网络问题用代理</strong>：遇到 <code>Connection timed out</code>，检查第 3 步的代理配置。</li>
+<li><strong>HTTPS 推送用 PAT</strong>：使用 HTTPS 协议时，认证密码是 <strong>Personal Access Token</strong>。</li>
+<li><strong>免密推送用 SSH</strong>：想省去输入 PAT 的麻烦，按第 5 步配置 SSH，并使用 SSH 地址克隆仓库。</li>
+<li><strong>代理不影响 SSH</strong>：牢记 <code>http.proxy</code> 管不了 SSH 协议的流量。</li>
+<li><strong>养成良好习惯</strong>：工作开始前 <code>git pull</code>，推送前 <code>git commit -m &quot;清晰的说明&quot;</code>。</li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://GlowStonee233.github.io/tags/git/">Git</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/github/">GitHub</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/">代理配置</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/ssh/">SSH</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">新手入门</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/%E5%A4%87%E5%BF%98%E5%BD%95/">备忘录</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://GlowStonee233.github.io/">GlowStonee的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

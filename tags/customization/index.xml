@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Customization on GlowStonee的博客</title>
+    <link>https://GlowStonee233.github.io/tags/customization/</link>
+    <description>Recent content in Customization on GlowStonee的博客</description>
+    <generator>Hugo -- 0.154.5</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 27 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://GlowStonee233.github.io/tags/customization/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>VS Code 个性化配置备忘录：提升编码效率与视觉体验</title>
+      <link>https://GlowStonee233.github.io/posts/vscode%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 27 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/vscode%E9%85%8D%E7%BD%AE/</guid>
+      <description>记录了几个提升 VS Code 编码效率的关键配置，并详细介绍了如何通过 Background 插件为编辑器设置自定义背景图，作为个人环境的美化备忘。</description>
+    </item>
+  </channel>
+</rss>
