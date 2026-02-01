@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>我的 WSL C语言环境备忘录 | GlowStonee的博客</title>
+<meta name="keywords" content="WSL, C语言, GDB, VS Code, 环境配置">
+<meta name="description" content="为备战C语言考试，也为日常开发，我基于 WSL 搭建了一套 C 语言环境。这篇备忘录记录了从 GDB 命令行手动捉虫，到 VS Code 一键调试的全流程配置，防止以后自己忘记。">
+<meta name="author" content="">
+<link rel="canonical" href="https://GlowStonee233.github.io/posts/2026/%E6%88%91%E7%9A%84-wsl-c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E5%A4%87%E5%BF%98%E5%BD%95/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.207853a8fb75ed39750b8a2b4b4d614e87702d4558b744c05489607d9a964f85.css" integrity="sha256-IHhTqPt17Tl1C4orS01hTodwLUVYt0TAVIlgfZqWT4U=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://GlowStonee233.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://GlowStonee233.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://GlowStonee233.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://GlowStonee233.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://GlowStonee233.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://GlowStonee233.github.io/posts/2026/%E6%88%91%E7%9A%84-wsl-c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E5%A4%87%E5%BF%98%E5%BD%95/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous" onload="renderMath();"></script>
+<script>
+    function renderMath() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ],
+            throwOnError: false
+        });
+    }
+</script><meta property="og:url" content="https://GlowStonee233.github.io/posts/2026/%E6%88%91%E7%9A%84-wsl-c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E5%A4%87%E5%BF%98%E5%BD%95/">
+  <meta property="og:site_name" content="GlowStonee的博客">
+  <meta property="og:title" content="我的 WSL C语言环境备忘录">
+  <meta property="og:description" content="为备战C语言考试，也为日常开发，我基于 WSL 搭建了一套 C 语言环境。这篇备忘录记录了从 GDB 命令行手动捉虫，到 VS Code 一键调试的全流程配置，防止以后自己忘记。">
+  <meta property="og:locale" content="zh-cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-30T20:48:50+08:00">
+    <meta property="article:modified_time" content="2026-01-30T20:48:50+08:00">
+    <meta property="article:tag" content="WSL">
+    <meta property="article:tag" content="C语言">
+    <meta property="article:tag" content="GDB">
+    <meta property="article:tag" content="VS Code">
+    <meta property="article:tag" content="环境配置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的 WSL C语言环境备忘录">
+<meta name="twitter:description" content="为备战C语言考试，也为日常开发，我基于 WSL 搭建了一套 C 语言环境。这篇备忘录记录了从 GDB 命令行手动捉虫，到 VS Code 一键调试的全流程配置，防止以后自己忘记。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://GlowStonee233.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "我的 WSL C语言环境备忘录",
+      "item": "https://GlowStonee233.github.io/posts/2026/%E6%88%91%E7%9A%84-wsl-c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E5%A4%87%E5%BF%98%E5%BD%95/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "我的 WSL C语言环境备忘录",
+  "name": "我的 WSL C语言环境备忘录",
+  "description": "为备战C语言考试，也为日常开发，我基于 WSL 搭建了一套 C 语言环境。这篇备忘录记录了从 GDB 命令行手动捉虫，到 VS Code 一键调试的全流程配置，防止以后自己忘记。",
+  "keywords": [
+    "WSL", "C语言", "GDB", "VS Code", "环境配置"
+  ],
+  "articleBody": "1. 前言：为什么要折腾 WSL？ 临近期末，复习C语言时实在是受不了Visual Studio复杂的操作（还没法直接写C），但是用VScode又被Windows的终端编码（GBK）搞的痛不欲生\n听说Linux编程配环境很容易，但是又不想放弃Windows的娱乐优势，所以学习了WSL来平衡二者。\n这篇文章记录了从简单的命令行到GDB调试的全过程，用于备忘。\n2. 环境准备与基础命令 2.1 环境架构 系统: Windows 11 25H2 + WSL2 (我用的是 Ubuntu) 编译器: GCC 调试器: GDB 编辑器: VS Code 2.2 WSL 基础命令 在 PowerShell 中，可以用几个简单命令管理 WSL：\n# 启动并进入默认的 Linux 发行版 wsl # 查看已安装的发行版及其版本（最好用WSL2） wsl -l -v 注意：从隔离的角度考虑，最好在在 Linux 的 /home/用户名 目录下进行代码开发**，不要跨盘操作（如 /mnt/c）。\n几个高频使用的终端命令：\npwd # 确认当前路径 ls -l # 列出文件详细信息 cd ~ # 快速回到 /home 目录，这里~=/home/用户名 mkdir code # 创建项目文件夹，使用-p参数来递归创建文件夹 2.3 安装核心开发工具 刚装好的 Ubuntu 可能不带开发工具，需要手动安装 build-essential 包，它包含了 gcc, g++, make 等一系列开发必备工具。\nsudo apt update sudo apt install build-essential 3. GCC 和 GDB 常见命令与内部逻辑 在配置 IDE 之前，必须先熟练掌握底层的命令行逻辑。为了演示 GDB 的强大，我们先来写一段看似没问题但结果错误的代码。\n3.1 这是一个有BUG的程序 创建一个名为 test.c 的文件，目的是计算 1 到 n 的和：\n#include int main(){ int n; int sum; scanf(\"%d\", \u0026n); for (int i = 1; i \u003c= n; i++){ sum += i; } printf(\"%d\\n\", sum); return 0; } 3.2 编译器 (GCC) 的标准命令 不要只会用 gcc test.c，养成添加标准参数的习惯，这能帮你发现无数潜在的 Bug。\n# 推荐的编译指令，参数详解： # -g : 生成调试信息（GDB 调试必须加，否则看不到源码和变量名） # -Wall : 开启所有警告（这对排查隐患至关重要） # -std=c11 : 指定 C11 标准，可以更换 # -o demo : 指定输出的可执行文件名为 demo gcc test.c -g -Wall -std=c11 -o demo 3.3 一个用GDB排除BUG的案例 以下，我将会模拟一场真实的BUG排查。\n第一步：编译并启动调试\ngcc test.c -g -o demo gdb ./demo 第二步：打断点 我们希望程序停在 main 函数刚开始的地方，好让我们一步步观察。\n(gdb) b main # b命令，打断点，支持按行数打断点 Breakpoint 1 at 0x1195: file test.c, line 3. 第三步：运行程序\n(gdb) r # r命令，运行程序 Starting program: /home/yourname/code/demo Breakpoint 1, main () at test.c:3 3 int main(){ 此时，程序停在了第 3 行，还没执行。\n第四步：单步执行与查看变量 这是最关键的一步。我们往下走几步，看看 sum 的值。\n注意，GDB只会检查执行语句，变量声明会直接跳过（除非变量在声明时就进行了赋值操作，如 int n = 0;），所以就从第3行跳到了第6行。\n(gdb) n 6 scanf(\"%d\", \u0026n); (gdb) n 5 #输入n的值 8 for (int i = 1; i \u003c= n; i++){ 此时，sum 已经被声明，但还没进入循环。让我们看看现在 sum 里面是什么：\n(gdb) p sum # p命令，打印变量值 $1 = -8944 # 发现是一个奇怪的值，说明是内存中的垃圾值 得出结论：因为没有初始化 sum = 0，它直接拿内存里的垃圾值去累加了，所以结果会不对。\n第五步：退出 (Quit) 找到问题后，退出 GDB 去修改代码。\n(gdb) q # q命令，退出调试 4.配置 VS Code 实现一键图形化调试 理解了上面的命令行全过程后，我们就可以通过配置让 VS Code 帮我们“代劳”，实现F5 一键图形化调试。\n4.1 连接 WSL VScode必须安装 WSL 插件。 在 WSL 终端进入你的项目目录：cd ~/code。 输入 code . 启动 VS Code。 看到 VS Code 左下角显示 WSL: Ubuntu 即表示连接成功。 4.2 配置 tasks.json (代替手工 GCC) 我们的目标是：按下 Ctrl+Shift+B 自动执行上面那串 gcc 编译命令。\n在项目根目录创建 .vscode/tasks.json 文件，填入以下内容：\n{ \"version\": \"2.0.0\", \"tasks\": [ { \"label\": \"GCC Build Active File\", // 任务标签，记注它，后面要用 \"type\": \"shell\", \"command\": \"/usr/bin/gcc\", \"args\": [ \"-g\", // 必须有，否则无法调试 \"${file}\", // 当前打开的文件名 \"-o\", \"${fileDirname}/${fileBasenameNoExtension}.out\", // 输出为同名.out文件 \"-std=c11\", \"-Wall\" ], \"group\": { \"kind\": \"build\", \"isDefault\": true }, \"problemMatcher\": [\"$gcc\"] } ] } 4.3 配置 launch.json (代替手工 GDB) 我们的目标是：按下 F5，自动调用上面的编译任务，然后启动 GDB 图形化调试。\n在 .vscode/launch.json 文件中填入以下内容：\n{ \"version\": \"0.2.0\", \"configurations\": [ { \"name\": \"GDB Debug Active File\", \"type\": \"cppdbg\", \"request\": \"launch\", \"program\": \"${fileDirname}/${fileBasenameNoExtension}.out\", \"args\": [], \"stopAtEntry\": false, \"cwd\": \"${fileDirname}\", \"environment\": [], \"externalConsole\": false, \"MIMode\": \"gdb\", \"setupCommands\": [ { \"description\": \"为 GDB 启用整齐打印\", \"text\": \"-enable-pretty-printing\", \"ignoreFailures\": true } ], // 关键！调试前先自动跑一遍上面的编译任务 \"preLaunchTask\": \"GCC Build Active File\" } ] } 配置好后，你就可以用鼠标在行号左边打断点，按 F5 启动调试，在左侧栏实时查看变量值了！\n5. 使用 CMake 管理多文件项目 对于单文件，gcc 足够了。但如果是多文件项目，手写 gcc main.c utils.c helper.c ... 会很痛苦。这时就该用 CMake 。\n项目结构示例：\nproject/ ├── CMakeLists.txt ├── main.c └── utils.c CMakeLists.txt 模板：\n# CMake 最低版本要求 cmake_minimum_required(VERSION 3.16) # 项目名称和语言 project(my_c_project C) # 设置 C 语言标准 set(CMAKE_C_STANDARD 11) # 添加可执行文件，源文件列表写在后面 add_executable(app main.c utils.c) 构建流程：\n# 创建一个 build 文件夹存放编译产物 mkdir build \u0026\u0026 cd build # 生成 Makefile cmake .. # 执行编译 make # 或者用 cmake 命令 # cmake --build . 6. 避坑指南与总结 编译参数的选择 (-g 和 -Wall)： 再次强调 -g 和 -Wall 的重要性。前者是 GDB 调试的入场券，后者能帮你提前发现无数低级错误（比如变量未初始化），省下大量调试时间。\nVS Code 配置核对： 按下 F5 提示 preLaunchTask 错误？检查 launch.json 里的 preLaunchTask 名字是否和 tasks.json 里的 label 完全一致。\n适当使用 “Code Runner” 插件： VS Code 的 Code Runner 插件虽然方便，但它隐藏了具体的编译命令，一键运行很爽，但对学习毫无帮助。建议在学习阶段手动敲终端命令或使用我们配置的 F5 调试流程，理解编译、链接的全过程。\n",
+  "wordCount" : "540",
+  "inLanguage": "en",
+  "datePublished": "2026-01-30T20:48:50+08:00",
+  "dateModified": "2026-01-30T20:48:50+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://GlowStonee233.github.io/posts/2026/%E6%88%91%E7%9A%84-wsl-c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E5%A4%87%E5%BF%98%E5%BD%95/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GlowStonee的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://GlowStonee233.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://GlowStonee233.github.io/" accesskey="h" title="GlowStonee的博客 (Alt + H)">GlowStonee的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://GlowStonee233.github.io/search/" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍 搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      我的 WSL C语言环境备忘录
+    </h1>
+    <div class="post-meta"><span title='2026-01-30 20:48:50 +0800 CST'>January 30, 2026</span>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#1-%e5%89%8d%e8%a8%80%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e6%8a%98%e8%85%be-wsl" aria-label="1. 前言：为什么要折腾 WSL？">1. 前言：为什么要折腾 WSL？</a></li>
+                <li>
+                    <a href="#2-%e7%8e%af%e5%a2%83%e5%87%86%e5%a4%87%e4%b8%8e%e5%9f%ba%e7%a1%80%e5%91%bd%e4%bb%a4" aria-label="2. 环境准备与基础命令">2. 环境准备与基础命令</a><ul>
+                        
+                <li>
+                    <a href="#21-%e7%8e%af%e5%a2%83%e6%9e%b6%e6%9e%84" aria-label="2.1 环境架构">2.1 环境架构</a></li>
+                <li>
+                    <a href="#22-wsl-%e5%9f%ba%e7%a1%80%e5%91%bd%e4%bb%a4" aria-label="2.2 WSL 基础命令">2.2 WSL 基础命令</a></li>
+                <li>
+                    <a href="#23-%e5%ae%89%e8%a3%85%e6%a0%b8%e5%bf%83%e5%bc%80%e5%8f%91%e5%b7%a5%e5%85%b7" aria-label="2.3 安装核心开发工具">2.3 安装核心开发工具</a></li></ul>
+                </li>
+                <li>
+                    <a href="#3-gcc-%e5%92%8c-gdb-%e5%b8%b8%e8%a7%81%e5%91%bd%e4%bb%a4%e4%b8%8e%e5%86%85%e9%83%a8%e9%80%bb%e8%be%91" aria-label="3. GCC 和 GDB 常见命令与内部逻辑">3. GCC 和 GDB 常见命令与内部逻辑</a><ul>
+                        
+                <li>
+                    <a href="#31-%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e6%9c%89bug%e7%9a%84%e7%a8%8b%e5%ba%8f" aria-label="3.1 这是一个有BUG的程序">3.1 这是一个有BUG的程序</a></li>
+                <li>
+                    <a href="#32-%e7%bc%96%e8%af%91%e5%99%a8-gcc-%e7%9a%84%e6%a0%87%e5%87%86%e5%91%bd%e4%bb%a4" aria-label="3.2 编译器 (GCC) 的标准命令">3.2 编译器 (GCC) 的标准命令</a></li>
+                <li>
+                    <a href="#33-%e4%b8%80%e4%b8%aa%e7%94%a8gdb%e6%8e%92%e9%99%a4bug%e7%9a%84%e6%a1%88%e4%be%8b" aria-label="3.3 一个用GDB排除BUG的案例">3.3 一个用GDB排除BUG的案例</a></li></ul>
+                </li>
+                <li>
+                    <a href="#4%e9%85%8d%e7%bd%ae-vs-code-%e5%ae%9e%e7%8e%b0%e4%b8%80%e9%94%ae%e5%9b%be%e5%bd%a2%e5%8c%96%e8%b0%83%e8%af%95" aria-label="4.配置 VS Code 实现一键图形化调试">4.配置 VS Code 实现一键图形化调试</a><ul>
+                        
+                <li>
+                    <a href="#41-%e8%bf%9e%e6%8e%a5-wsl" aria-label="4.1 连接 WSL">4.1 连接 WSL</a></li>
+                <li>
+                    <a href="#42-%e9%85%8d%e7%bd%ae-tasksjson-%e4%bb%a3%e6%9b%bf%e6%89%8b%e5%b7%a5-gcc" aria-label="4.2 配置 tasks.json (代替手工 GCC)">4.2 配置 tasks.json (代替手工 GCC)</a></li>
+                <li>
+                    <a href="#43-%e9%85%8d%e7%bd%ae-launchjson-%e4%bb%a3%e6%9b%bf%e6%89%8b%e5%b7%a5-gdb" aria-label="4.3 配置 launch.json (代替手工 GDB)">4.3 配置 launch.json (代替手工 GDB)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#5-%e4%bd%bf%e7%94%a8-cmake-%e7%ae%a1%e7%90%86%e5%a4%9a%e6%96%87%e4%bb%b6%e9%a1%b9%e7%9b%ae" aria-label="5. 使用 CMake 管理多文件项目">5. 使用 CMake 管理多文件项目</a></li>
+                <li>
+                    <a href="#6-%e9%81%bf%e5%9d%91%e6%8c%87%e5%8d%97%e4%b8%8e%e6%80%bb%e7%bb%93" aria-label="6. 避坑指南与总结">6. 避坑指南与总结</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="1-前言为什么要折腾-wsl">1. 前言：为什么要折腾 WSL？<a hidden class="anchor" aria-hidden="true" href="#1-前言为什么要折腾-wsl">#</a></h2>
+<p>临近期末，复习C语言时实在是受不了Visual Studio复杂的操作（还没法直接写C），但是用VScode又被Windows的终端编码（GBK）搞的痛不欲生</p>
+<p>听说Linux编程配环境很容易，但是又不想放弃Windows的娱乐优势，所以学习了WSL来平衡二者。</p>
+<p>这篇文章记录了从简单的命令行到GDB调试的全过程，用于备忘。</p>
+<h2 id="2-环境准备与基础命令">2. 环境准备与基础命令<a hidden class="anchor" aria-hidden="true" href="#2-环境准备与基础命令">#</a></h2>
+<h3 id="21-环境架构">2.1 环境架构<a hidden class="anchor" aria-hidden="true" href="#21-环境架构">#</a></h3>
+<ul>
+<li><strong>系统</strong>: Windows 11 25H2 + WSL2 (我用的是 Ubuntu)</li>
+<li><strong>编译器</strong>: GCC</li>
+<li><strong>调试器</strong>: GDB</li>
+<li><strong>编辑器</strong>: VS Code</li>
+</ul>
+<h3 id="22-wsl-基础命令">2.2 WSL 基础命令<a hidden class="anchor" aria-hidden="true" href="#22-wsl-基础命令">#</a></h3>
+<p>在 PowerShell 中，可以用几个简单命令管理 WSL：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 启动并进入默认的 Linux 发行版</span>
+</span></span><span style="display:flex;"><span>wsl
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看已安装的发行版及其版本（最好用WSL2）</span>
+</span></span><span style="display:flex;"><span>wsl -l -v
+</span></span></code></pre></div><blockquote>
+<p><strong>注意</strong>：从隔离的角度考虑，<strong>最好在</strong>在 Linux 的 <code>/home/用户名</code> 目录下进行代码开发**，不要跨盘操作（如 <code>/mnt/c</code>）。</p>
+</blockquote>
+<p>几个高频使用的终端命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pwd          <span style="color:#75715e"># 确认当前路径</span>
+</span></span><span style="display:flex;"><span>ls -l        <span style="color:#75715e"># 列出文件详细信息</span>
+</span></span><span style="display:flex;"><span>cd ~         <span style="color:#75715e"># 快速回到 /home 目录，这里~=/home/用户名</span>
+</span></span><span style="display:flex;"><span>mkdir code   <span style="color:#75715e"># 创建项目文件夹，使用-p参数来递归创建文件夹</span>
+</span></span></code></pre></div><h3 id="23-安装核心开发工具">2.3 安装核心开发工具<a hidden class="anchor" aria-hidden="true" href="#23-安装核心开发工具">#</a></h3>
+<p>刚装好的 Ubuntu 可能不带开发工具，需要手动安装 <code>build-essential</code> 包，它包含了 <code>gcc</code>, <code>g++</code>, <code>make</code> 等一系列开发必备工具。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install build-essential
+</span></span></code></pre></div><h2 id="3-gcc-和-gdb-常见命令与内部逻辑">3. GCC 和 GDB 常见命令与内部逻辑<a hidden class="anchor" aria-hidden="true" href="#3-gcc-和-gdb-常见命令与内部逻辑">#</a></h2>
+<p>在配置 IDE 之前，必须先熟练掌握底层的命令行逻辑。为了演示 GDB 的强大，我们先来写一段<strong>看似没问题但结果错误</strong>的代码。</p>
+<h3 id="31-这是一个有bug的程序">3.1 这是一个有BUG的程序<a hidden class="anchor" aria-hidden="true" href="#31-这是一个有bug的程序">#</a></h3>
+<p>创建一个名为 <code>test.c</code> 的文件，目的是计算 1 到 n 的和：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> sum;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>n);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>        sum <span style="color:#f92672">+=</span> i;   
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, sum);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="32-编译器-gcc-的标准命令">3.2 编译器 (GCC) 的标准命令<a hidden class="anchor" aria-hidden="true" href="#32-编译器-gcc-的标准命令">#</a></h3>
+<p>不要只会用 <code>gcc test.c</code>，养成添加标准参数的习惯，这能帮你发现无数潜在的 Bug。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 推荐的编译指令，参数详解：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -g       : 生成调试信息（GDB 调试必须加，否则看不到源码和变量名）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -Wall    : 开启所有警告（这对排查隐患至关重要）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -std=c11 : 指定 C11 标准，可以更换</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -o demo  : 指定输出的可执行文件名为 demo</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gcc test.c -g -Wall -std<span style="color:#f92672">=</span>c11 -o demo 
+</span></span></code></pre></div><h3 id="33-一个用gdb排除bug的案例">3.3 一个用GDB排除BUG的案例<a hidden class="anchor" aria-hidden="true" href="#33-一个用gdb排除bug的案例">#</a></h3>
+<p>以下，我将会模拟一场真实的BUG排查。</p>
+<p><strong>第一步：编译并启动调试</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc test.c -g -o demo 
+</span></span><span style="display:flex;"><span>gdb ./demo
+</span></span></code></pre></div><p><strong>第二步：打断点</strong>
+我们希望程序停在 <code>main</code> 函数刚开始的地方，好让我们一步步观察。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> b main <span style="color:#75715e"># b命令，打断点，支持按行数打断点</span>
+</span></span><span style="display:flex;"><span>Breakpoint <span style="color:#ae81ff">1</span> at 0x1195: file test.c, line 3.
+</span></span></code></pre></div><p><strong>第三步：运行程序</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> r <span style="color:#75715e"># r命令，运行程序</span>
+</span></span><span style="display:flex;"><span>Starting program: /home/yourname/code/demo 
+</span></span><span style="display:flex;"><span>Breakpoint 1, main <span style="color:#f92672">()</span> at test.c:3
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>       int main<span style="color:#f92672">(){</span>
+</span></span></code></pre></div><p><em>此时，程序停在了第 3 行，还没执行。</em></p>
+<p><strong>第四步：单步执行与查看变量</strong>
+这是最关键的一步。我们往下走几步，看看 <code>sum</code> 的值。</p>
+<blockquote>
+<p>注意，GDB只会检查执行语句，变量声明会直接跳过（除非变量在声明时就进行了赋值操作，如 int n = 0;），所以就从第3行跳到了第6行。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> n
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span>           scanf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%d&#34;</span>, &amp;n<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> n
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5</span>           <span style="color:#75715e">#输入n的值</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8</span>           <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>int i <span style="color:#f92672">=</span> 1; i &lt;<span style="color:#f92672">=</span> n; i++<span style="color:#f92672">){</span>
+</span></span></code></pre></div><p>此时，<code>sum</code> 已经被声明，但还没进入循环。让我们看看现在 <code>sum</code> 里面是什么：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> p sum <span style="color:#75715e"># p命令，打印变量值</span>
+</span></span><span style="display:flex;"><span>$1 <span style="color:#f92672">=</span> -8944 <span style="color:#75715e"># 发现是一个奇怪的值，说明是内存中的垃圾值</span>
+</span></span></code></pre></div><p><strong>得出结论</strong>：因为没有初始化 <code>sum = 0</code>，它直接拿内存里的垃圾值去累加了，所以结果会不对。</p>
+<p><strong>第五步：退出 (Quit)</strong>
+找到问题后，退出 GDB 去修改代码。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> q <span style="color:#75715e"># q命令，退出调试</span>
+</span></span></code></pre></div><h2 id="4配置-vs-code-实现一键图形化调试">4.配置 VS Code 实现一键图形化调试<a hidden class="anchor" aria-hidden="true" href="#4配置-vs-code-实现一键图形化调试">#</a></h2>
+<p>理解了上面的命令行全过程后，我们就可以通过配置让 VS Code 帮我们“代劳”，实现<strong>F5 一键图形化调试</strong>。</p>
+<h3 id="41-连接-wsl">4.1 连接 WSL<a hidden class="anchor" aria-hidden="true" href="#41-连接-wsl">#</a></h3>
+<ol>
+<li>VScode必须安装 <strong>WSL</strong> 插件。</li>
+<li>在 WSL 终端进入你的项目目录：<code>cd ~/code</code>。</li>
+<li>输入 <code>code .</code> 启动 VS Code。</li>
+<li>看到 VS Code 左下角显示 <code>WSL: Ubuntu</code> 即表示连接成功。</li>
+</ol>
+<h3 id="42-配置-tasksjson-代替手工-gcc">4.2 配置 <code>tasks.json</code> (代替手工 GCC)<a hidden class="anchor" aria-hidden="true" href="#42-配置-tasksjson-代替手工-gcc">#</a></h3>
+<p>我们的目标是：按下 <code>Ctrl+Shift+B</code> 自动执行上面那串 <code>gcc</code> 编译命令。</p>
+<p>在项目根目录创建 <code>.vscode/tasks.json</code> 文件，填入以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;2.0.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;tasks&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;GCC Build Active File&#34;</span>,  <span style="color:#75715e">// 任务标签，记注它，后面要用
+</span></span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;shell&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;/usr/bin/gcc&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;args&#34;</span>: [
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-g&#34;</span>,              <span style="color:#75715e">// 必须有，否则无法调试
+</span></span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;${file}&#34;</span>,         <span style="color:#75715e">// 当前打开的文件名
+</span></span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-o&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;${fileDirname}/${fileBasenameNoExtension}.out&#34;</span>, <span style="color:#75715e">// 输出为同名.out文件
+</span></span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-std=c11&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-Wall&#34;</span>
+</span></span><span style="display:flex;"><span>            ],
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;group&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;kind&#34;</span>: <span style="color:#e6db74">&#34;build&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;isDefault&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;problemMatcher&#34;</span>: [<span style="color:#e6db74">&#34;$gcc&#34;</span>]
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="43-配置-launchjson-代替手工-gdb">4.3 配置 <code>launch.json</code> (代替手工 GDB)<a hidden class="anchor" aria-hidden="true" href="#43-配置-launchjson-代替手工-gdb">#</a></h3>
+<p>我们的目标是：按下 <code>F5</code>，自动调用上面的编译任务，然后启动 GDB 图形化调试。</p>
+<p>在 <code>.vscode/launch.json</code> 文件中填入以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;configurations&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;GDB Debug Active File&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;cppdbg&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;${fileDirname}/${fileBasenameNoExtension}.out&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;args&#34;</span>: [],
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;stopAtEntry&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;${fileDirname}&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;environment&#34;</span>: [],
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;externalConsole&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;MIMode&#34;</span>: <span style="color:#e6db74">&#34;gdb&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;setupCommands&#34;</span>: [
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;为 GDB 启用整齐打印&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&#34;text&#34;</span>: <span style="color:#e6db74">&#34;-enable-pretty-printing&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&#34;ignoreFailures&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            ],
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 关键！调试前先自动跑一遍上面的编译任务
+</span></span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;preLaunchTask&#34;</span>: <span style="color:#e6db74">&#34;GCC Build Active File&#34;</span> 
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>配置好后，你就可以用鼠标在行号左边打断点，按 F5 启动调试，在左侧栏实时查看变量值了！</p>
+<h2 id="5-使用-cmake-管理多文件项目">5. 使用 CMake 管理多文件项目<a hidden class="anchor" aria-hidden="true" href="#5-使用-cmake-管理多文件项目">#</a></h2>
+<p>对于单文件，<code>gcc</code> 足够了。但如果是多文件项目，手写 <code>gcc main.c utils.c helper.c ...</code> 会很痛苦。这时就该用 <code>CMake</code> 。</p>
+<p><strong>项目结构示例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>project/
+</span></span><span style="display:flex;"><span>├── CMakeLists.txt
+</span></span><span style="display:flex;"><span>├── main.c
+</span></span><span style="display:flex;"><span>└── utils.c
+</span></span></code></pre></div><p><strong>CMakeLists.txt 模板：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmake" data-lang="cmake"><span style="display:flex;"><span><span style="color:#75715e"># CMake 最低版本要求
+</span></span></span><span style="display:flex;"><span>cmake_minimum_required(<span style="color:#e6db74">VERSION</span> <span style="color:#e6db74">3.16</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># 项目名称和语言
+</span></span></span><span style="display:flex;"><span>project(<span style="color:#e6db74">my_c_project</span> <span style="color:#e6db74">C</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置 C 语言标准
+</span></span></span><span style="display:flex;"><span>set(<span style="color:#e6db74">CMAKE_C_STANDARD</span> <span style="color:#e6db74">11</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加可执行文件，源文件列表写在后面
+</span></span></span><span style="display:flex;"><span>add_executable(<span style="color:#e6db74">app</span> <span style="color:#e6db74">main.c</span> <span style="color:#e6db74">utils.c</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p><strong>构建流程：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 创建一个 build 文件夹存放编译产物</span>
+</span></span><span style="display:flex;"><span>mkdir build <span style="color:#f92672">&amp;&amp;</span> cd build
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 生成 Makefile</span>
+</span></span><span style="display:flex;"><span>cmake ..
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 执行编译</span>
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者用 cmake 命令</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cmake --build .</span>
+</span></span></code></pre></div><h2 id="6-避坑指南与总结">6. 避坑指南与总结<a hidden class="anchor" aria-hidden="true" href="#6-避坑指南与总结">#</a></h2>
+<ol>
+<li>
+<p><strong>编译参数的选择 (<code>-g</code> 和 <code>-Wall</code>)</strong>：
+再次强调 <code>-g</code> 和 <code>-Wall</code> 的重要性。前者是 GDB 调试的入场券，后者能帮你提前发现无数低级错误（比如变量未初始化），省下大量调试时间。</p>
+</li>
+<li>
+<p><strong>VS Code 配置核对</strong>：
+按下 F5 提示 <code>preLaunchTask</code> 错误？检查 <code>launch.json</code> 里的 <code>preLaunchTask</code> 名字是否和 <code>tasks.json</code> 里的 <code>label</code> <strong>完全一致</strong>。</p>
+</li>
+<li>
+<p><strong>适当使用 &ldquo;Code Runner&rdquo; 插件</strong>：
+VS Code 的 Code Runner 插件虽然方便，但它隐藏了具体的编译命令，一键运行很爽，但对学习毫无帮助。建议在学习阶段<strong>手动敲终端命令</strong>或使用我们配置的 <code>F5</code> 调试流程，理解编译、链接的全过程。</p>
+</li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://GlowStonee233.github.io/tags/wsl/">WSL</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/c%E8%AF%AD%E8%A8%80/">C语言</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/gdb/">GDB</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/vs-code/">VS Code</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://GlowStonee233.github.io/">GlowStonee的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

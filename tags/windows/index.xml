@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Windows on GlowStonee的博客</title>
+    <link>https://GlowStonee233.github.io/tags/windows/</link>
+    <description>Recent content in Windows on GlowStonee的博客</description>
+    <generator>Hugo -- 0.154.5</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 01 Feb 2026 12:49:18 +0000</lastBuildDate>
+    <atom:link href="https://GlowStonee233.github.io/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows 10下 WSL Git的一个clone性能问题的解决</title>
+      <link>https://GlowStonee233.github.io/posts/2026/windows-10-%E4%B8%8B-wsl-git%E7%9A%84%E4%B8%80%E4%B8%AAclone%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/</link>
+      <pubDate>Sun, 01 Feb 2026 12:49:18 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/2026/windows-10-%E4%B8%8B-wsl-git%E7%9A%84%E4%B8%80%E4%B8%AAclone%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/</guid>
+      <description>深入解析 WSL 网络隔离导致的 Git 性能问题，提供代理配置、Git 参数调优及文件系统最佳实践，彻底解决 Clone 慢与超时。</description>
+    </item>
+  </channel>
+</rss>
