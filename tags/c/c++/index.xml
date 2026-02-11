@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>C/C&#43;&#43; on GlowStonee的博客</title>
+    <link>https://GlowStonee233.github.io/tags/c/c&#43;&#43;/</link>
+    <description>Recent content in C/C&#43;&#43; on GlowStonee的博客</description>
+    <generator>Hugo -- 0.154.5</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Feb 2026 16:27:49 +0000</lastBuildDate>
+    <atom:link href="https://GlowStonee233.github.io/tags/c/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>VS Code C/C&#43;&#43; 控制台中文乱码完全修复指南</title>
+      <link>https://GlowStonee233.github.io/posts/2026/vs-code-c/c-%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E5%AE%8C%E5%85%A8%E4%BF%AE%E5%A4%8D%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Wed, 11 Feb 2026 16:27:49 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/2026/vs-code-c/c-%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E5%AE%8C%E5%85%A8%E4%BF%AE%E5%A4%8D%E6%8C%87%E5%8D%97/</guid>
+      <description>本文深入解析编码不一致导致的乱码根源，提供基于 PowerShell 和 GCC 参数的 Code Runner 配置方案，彻底解决 Windows 环境下的中文显示问题。</description>
+    </item>
+  </channel>
+</rss>

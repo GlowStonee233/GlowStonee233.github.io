@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Git | GlowStonee的博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="https://GlowStonee233.github.io/tags/git/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e56497cef506dcfab4678b00abe90cd98f1c6fb15698a58791a53940a8e16f8d.css" integrity="sha256-5WSXzvUG3Pq0Z4sAq&#43;kM2Y8cb7FWmKWHkaU5QKjhb40=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://GlowStonee233.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://GlowStonee233.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://GlowStonee233.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://GlowStonee233.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://GlowStonee233.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://GlowStonee233.github.io/tags/git/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="https://GlowStonee233.github.io/tags/git/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+          crossorigin="anonymous">
+
+    
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+            crossorigin="anonymous"></script>
+
+    
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+            crossorigin="anonymous"
+            onload="renderMath();"></script>
+
+    
+    <script>
+        function renderMath() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},   
+                    {left: "$",  right: "$",  display: false}   
+                ],
+                throwOnError: false  
+            });
+        }
+    </script><meta property="og:url" content="https://GlowStonee233.github.io/tags/git/">
+  <meta property="og:site_name" content="GlowStonee的博客">
+  <meta property="og:title" content="Git">
+  <meta property="og:locale" content="zh-cn">
+  <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git">
+<meta name="twitter:description" content="">
+
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://GlowStonee233.github.io/" accesskey="h" title="GlowStonee的博客 (Alt + H)">GlowStonee的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://GlowStonee233.github.io/search/" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍 搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Git
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Windows 10下 WSL Git的一个clone性能问题的解决
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>深入解析 WSL 网络隔离导致的 Git 性能问题，提供代理配置、Git 参数调优及文件系统最佳实践，彻底解决 Clone 慢与超时。</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-02-01 12:49:18.341 +0000 UTC'>February 1, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Windows 10下 WSL Git的一个clone性能问题的解决" href="https://GlowStonee233.github.io/posts/2026/windows-10-%E4%B8%8B-wsl-git%E7%9A%84%E4%B8%80%E4%B8%AAclone%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Git 配置代理备忘录：解决 GitHub 连接超时与访问失败问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>记录了如何通过配置 SSH 和 HTTPS 代理，一劳永逸地解决因网络问题导致的 Git 推送或拉取 GitHub 仓库失败的问题。</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-27 00:00:00 +0000 UTC'>January 27, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Git 配置代理备忘录：解决 GitHub 连接超时与访问失败问题" href="https://GlowStonee233.github.io/posts/2026/git-%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E5%A4%87%E5%BF%98%E5%BD%95%E8%A7%A3%E5%86%B3-github-%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E4%B8%8E%E8%AE%BF%E9%97%AE%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">技术备忘：利用 Shell 脚本实现 Hugo 博客一键自动化部署
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>记录如何通过编写 Shell 脚本，将繁琐的 Hugo 手动构建与 Git 推送流程合并为“一键发布”，并重点排查了 HTTPS 凭证明文存储的安全隐患。</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-27 00:00:00 +0000 UTC'>January 27, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 技术备忘：利用 Shell 脚本实现 Hugo 博客一键自动化部署" href="https://GlowStonee233.github.io/posts/2026/%E6%8A%80%E6%9C%AF%E5%A4%87%E5%BF%98%E5%88%A9%E7%94%A8-shell-%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0-hugo-%E5%8D%9A%E5%AE%A2%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Git &amp; GitHub 高效入门指南：从代理加速到 SSH 免密
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一篇高效率的 Git &amp; GitHub 新手入门备忘录。内容涵盖初始配置、代理加速、HTTPS 核心流程、SSH 免密配置，并附带常用命令速查表。</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-26 00:00:00 +0000 UTC'>January 26, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Git & GitHub 高效入门指南：从代理加速到 SSH 免密" href="https://GlowStonee233.github.io/posts/2026/git-github-%E9%AB%98%E6%95%88%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%E4%BB%8E%E4%BB%A3%E7%90%86%E5%8A%A0%E9%80%9F%E5%88%B0-ssh-%E5%85%8D%E5%AF%86/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://GlowStonee233.github.io/">GlowStonee的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

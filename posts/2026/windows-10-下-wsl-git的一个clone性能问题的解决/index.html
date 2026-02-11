@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Windows 10下 WSL Git的一个clone性能问题的解决 | GlowStonee的博客</title>
+<meta name="keywords" content="WSL, Git, Windows, 网络配置, 性能优化">
+<meta name="description" content="深入解析 WSL 网络隔离导致的 Git 性能问题，提供代理配置、Git 参数调优及文件系统最佳实践，彻底解决 Clone 慢与超时。">
+<meta name="author" content="">
+<link rel="canonical" href="https://GlowStonee233.github.io/posts/2026/windows-10-%E4%B8%8B-wsl-git%E7%9A%84%E4%B8%80%E4%B8%AAclone%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e56497cef506dcfab4678b00abe90cd98f1c6fb15698a58791a53940a8e16f8d.css" integrity="sha256-5WSXzvUG3Pq0Z4sAq&#43;kM2Y8cb7FWmKWHkaU5QKjhb40=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://GlowStonee233.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://GlowStonee233.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://GlowStonee233.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://GlowStonee233.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://GlowStonee233.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://GlowStonee233.github.io/posts/2026/windows-10-%E4%B8%8B-wsl-git%E7%9A%84%E4%B8%80%E4%B8%AAclone%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+          crossorigin="anonymous">
+
+    
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+            crossorigin="anonymous"></script>
+
+    
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+            crossorigin="anonymous"
+            onload="renderMath();"></script>
+
+    
+    <script>
+        function renderMath() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},   
+                    {left: "$",  right: "$",  display: false}   
+                ],
+                throwOnError: false  
+            });
+        }
+    </script><meta property="og:url" content="https://GlowStonee233.github.io/posts/2026/windows-10-%E4%B8%8B-wsl-git%E7%9A%84%E4%B8%80%E4%B8%AAclone%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
+  <meta property="og:site_name" content="GlowStonee的博客">
+  <meta property="og:title" content="Windows 10下 WSL Git的一个clone性能问题的解决">
+  <meta property="og:description" content="深入解析 WSL 网络隔离导致的 Git 性能问题，提供代理配置、Git 参数调优及文件系统最佳实践，彻底解决 Clone 慢与超时。">
+  <meta property="og:locale" content="zh-cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-01T12:49:18+00:00">
+    <meta property="article:modified_time" content="2026-02-01T12:49:18+00:00">
+    <meta property="article:tag" content="WSL">
+    <meta property="article:tag" content="Git">
+    <meta property="article:tag" content="Windows">
+    <meta property="article:tag" content="网络配置">
+    <meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows 10下 WSL Git的一个clone性能问题的解决">
+<meta name="twitter:description" content="深入解析 WSL 网络隔离导致的 Git 性能问题，提供代理配置、Git 参数调优及文件系统最佳实践，彻底解决 Clone 慢与超时。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://GlowStonee233.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Windows 10下 WSL Git的一个clone性能问题的解决",
+      "item": "https://GlowStonee233.github.io/posts/2026/windows-10-%E4%B8%8B-wsl-git%E7%9A%84%E4%B8%80%E4%B8%AAclone%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Windows 10下 WSL Git的一个clone性能问题的解决",
+  "name": "Windows 10下 WSL Git的一个clone性能问题的解决",
+  "description": "深入解析 WSL 网络隔离导致的 Git 性能问题，提供代理配置、Git 参数调优及文件系统最佳实践，彻底解决 Clone 慢与超时。",
+  "keywords": [
+    "WSL", "Git", "Windows", "网络配置", "性能优化"
+  ],
+  "articleBody": "我日常在 WSL中开发，享受着它带来的无缝体验。但最近，一个问题几乎让我放弃它：Git 慢到无法使用。本文记录了我从抓狂到解决问题的全过程，希望能帮你绕开我踩过的所有坑。\n初步尝试与屡屡碰壁 一切始于我们将一个 C 语言项目从原生 Windows 迁移至 WSL 环境。\n问题：网络隔离 项目迁移后，我无法从 WSL 中正常 git clone 或 git push 到远程仓库。\n⚠️ 坑点：WSL 的独立网络栈： WSL 拥有自己的一套虚拟网络，它与宿主机 Windows 并不直接共享 localhost (127.0.0.1)。因此，你在 Windows 上运行的代理服务，对于 WSL 内部的程序来说，并不能通过 localhost 访问到。\n迷宫般的代理配置 我当时第一反应是在 WSL 中为 Git 配置代理。\n尝试一：直接指向 localhost，失败。 我尝试在 WSL 的 .gitconfig 中设置 http.proxy 指向 Windows 代理的端口（如 http://127.0.0.1:7890），但连接被拒绝。\n尝试二：移植代理客户端到 WSL，失败。 我试图将代理工具（如 V2Ray）直接在 WSL 内部运行。但这带来了新的问题：复杂的配置、找不到合适的 Linux 版本，以及端口被占用的冲突。\n在这条路，我彻底走进了死胡同。\n曲线救国和新问题 在 WSL 原生 Git 走不通后，我决定换个思路。\n调用 Windows Git 我利用了 WSL 的一个强大特性：可以调用Windows上的可执行文件。\n我直接在 WSL 命令行中调用 Windows 环境中的 git.exe 来执行所有 Git 操作。\n# 在 WSL 中调用 Windows 的 Git /mnt/c/Program\\ Files/Git/bin/git.exe clone [repository_url] 这立刻解决了网络问题。Windows 的 Git 自然地使用了 Windows 的网络配置，Git的clone和push都恢复了正常。\n💡 为什么可以这样做？ WSL 允许你在 Linux 环境中直接调用 Windows 的可执行文件 (.exe)，反之亦然。这是一个非常强大的“胶水”特性，能让你组合利用两个系统的优势。\n新瓶颈和问题 在 WSL 中直接调用 Windows Git (git.exe) 会带来两个新瓶颈。\n💡 背景: 此前的方案（在 WSL 中调用 Windows Git）初步解决了“有没有”的问题，但很快就暴露了可用性和性能上的新瓶颈。\n一是命令冗长复杂，降低了操作效率。二是跨文件系统的 I/O 损耗，导致性能下降。\n⚠️ 坑点：命令的复杂与分裂\n在 WSL 中，调用 git.exe 需要写很长的路径（如 /mnt/c/.../git.exe），即便使用别名 (alias) 也难以优雅地管理。若为了简化而只用它处理部分操作（如网络推送），则会破坏命令的统一性，在开发者脑中形成两个分裂的 Git，增加心智负担。\n这本质上是 WSL 的架构限制所致。\n🔍 细节：跨文件系统的性能开销 WSL 的架构决定了其跨文件系统的性能瓶颈。当 WSL 内的进程（如 bash）操作 Windows 文件（挂载于 /mnt/*）时，或 Windows 进程操作 WSL 文件（位于 \\\\wsl$\\*）时，都会因额外的转换和通信层而产生显著的性能开销。调用 git.exe 正是后一种情况。\n结论：必须回归使用 WSL 原生的 Git。\n回归初心，根治 WSL 原生 Git 既然“曲线救国”的路也堵死了，我决定正面解决问题。\n问题到底出在哪？ 我曾怀疑是 WSL 的 NAT (网络地址转换) 导致了性能问题，搜索后探究到发现并非如此。\n🔍 细节：NAT 并非瓶颈 WSL 的虚拟交换机 NAT 性能极高（可达 10Gbps 级别），而我通过代理访问公网的瓶颈在于代理节点带宽和国际出口（约 30Mbps）。真正的瓶颈与 NAT 无关。\n那为什么 Clone 大仓库时总是会中断？后来我使用下面的方法解决的问题，发现问题可能不在网络层，而是在应用协议层，有以下可能。\n协议不兼容：HTTP/2 协议在通过复杂的代理链路时，其多路复用特性可能因丢包或乱序导致连接重置。 超时太敏感：Git 默认的超时机制对网络抖动（Jitter）过于敏感，在跨国网络中容易误判连接失败而主动中断。 缓冲区太小：在高延迟网络下，过小的缓冲区导致了过多的网络 I/O 交互，增加了出错的概率。 最终配置 我制定了最终配置可能是针对解决了以上三个可能的协议层问题，\n1.动态获取宿主机 IP\n要让 WSL 里的 Git 找到 Windows 的代理，就必须知道 Windows 的真实 IP。\n我编写了一个简单的脚本，每次启动 shell 时自动获取宿主机 IP，并设置好代理,写入脚本后使用source ~/.bashrc或者source ~/.zshrc使配置生效。\n📝 获取宿主机 IP 的脚本 在你的 .bashrc 或 .zshrc 中加入以下脚本。它会解析 resolv.conf 文件来找到 Windows 主机的 IP，并设置 ALL_PROXY 环境变量。\n# 获取 Windows Host IP 并设置代理 export HOST_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}') export PROXY_PORT=10800 # 你的 Windows 代理端口 export ALL_PROXY=\"socks5://${HOST_IP}:${PROXY_PORT}\" # 你也可以选择直接修改 git config，但环境变量更灵活 # git config --global http.proxy \"http://${HOST_IP}:${PROXY_PORT}\" # git config --global https.proxy \"http://${HOST_IP}:${PROXY_PORT}\" 💡 Windows 11 的镜像网络：Win11 高版本引入了 Mirrored Networking，它可以让 WSL 与 Windows 共享网络，直接使用 localhost 即可。如果你使用 Win11 ，强烈建议开启此功能，可以省去以上脚本。\n2.优化 Git 传输参数\n这是最关键的一步。我在 Git 全局配置中加入了三行配置。\ngit config --global http.version HTTP/1.1 git config --global http.postBuffer 157286400 git config --global core.lowSpeedLimit 0 git config --global core.lowSpeedTime 999999 🔍 原理：这三行配置到底做了什么？\nhttp.version HTTP/1.1：强制 Git 降级使用更稳定、更兼容的 HTTP/1.1 协议，避开 HTTP/2 在复杂代理环境下的“水土不服”。 http.postBuffer 157286400：将 POST 请求的缓冲区增大到 150MB。对于 git push 等操作，这意味着 Git 会在内存里准备好一个大文件块再进行单次、大块的传输，显著减少高延迟网络下的交互次数。 core.lowSpeedLimit / core.lowSpeedTime：基本禁用了 Git 自身的超时检测机制，允许连接在网络临时抖动或速度极慢时“苟活”下来，把连接管理的任务完全交给底层的 TCP 协议。 3.使用 Linux 原生文件系统\n这是确保 I/O 性能的铁律。\n永远在 WSL 的主目录 (~) 或其他 Linux 文件系统路径下执行 Git 操作。\n第四阶段：战果与反思 配置完成后，我进行了测试。\n效果检验：Clone Linux 内核仓库 我选择 Clone Linux 内核这个巨型仓库 Linux Kernel。\n结果令人振奋：\n仓库大小：5.60 GiB 耗时：约 26 分钟 平均速度：约 3.43 MiB/s 过程：全程稳定，无任何断连或报错。 这证明了问题已经得到圆满解决。\n总结与最终配置 回顾整个过程，解决 WSL 中 Git 性能问题的关键在于找到核心问题，将问题定位到协议问题。\n📝 最终推荐配置 以下是我沉淀下来的最终配置，融合了所有优化和一些额外建议。\n1. Shell 启动脚本 (~/.bashrc 或 ~/.zshrc)\n# For Win10 or Win11 without Mirrored Networking export HOST_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}') export PROXY_PORT=7890 # 修改为你的代理端口 export ALL_PROXY=\"socks5://${HOST_IP}:${PROXY_PORT}\" 2. Git 全局配置 (~/.gitconfig)\n[http] postBuffer = 157286400 version = HTTP/1.1 [core] lowSpeedLimit = 0 lowSpeedTime = 999999 # [http] # maxRequests = 5 # 警告：此配置可提高并发，但是我没有试过，可能存在被服务器Ban掉的风险，请谨慎使用 ⚠️ 注意：我移除了之前测试用的 core.fscache，因为它在 Linux 下无效，是 Windows 专用的 Git 缓存配置。\n如果仅仅是为了解决 Git 问题无需升级系统，但从长远看，如果条件允许，我依然推荐升级到 Windows 11，并开启镜像网络。它能从根本上解决 WSL 与 Windows 的网络差异，一劳永逸地解决 IP 变动、VPN 穿透等诸多网络难题，还能原生支持 Linux GUI 应用，整体开发体验会再上一个台阶。\n以上\n",
+  "wordCount" : "468",
+  "inLanguage": "en",
+  "datePublished": "2026-02-01T12:49:18.341Z",
+  "dateModified": "2026-02-01T12:49:18.341Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://GlowStonee233.github.io/posts/2026/windows-10-%E4%B8%8B-wsl-git%E7%9A%84%E4%B8%80%E4%B8%AAclone%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GlowStonee的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://GlowStonee233.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://GlowStonee233.github.io/" accesskey="h" title="GlowStonee的博客 (Alt + H)">GlowStonee的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://GlowStonee233.github.io/search/" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍 搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Windows 10下 WSL Git的一个clone性能问题的解决
+    </h1>
+    <div class="post-meta"><span title='2026-02-01 12:49:18.341 +0000 UTC'>February 1, 2026</span>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%88%9d%e6%ad%a5%e5%b0%9d%e8%af%95%e4%b8%8e%e5%b1%a1%e5%b1%a1%e7%a2%b0%e5%a3%81" aria-label="初步尝试与屡屡碰壁">初步尝试与屡屡碰壁</a><ul>
+                        
+                <li>
+                    <a href="#%e9%97%ae%e9%a2%98%e7%bd%91%e7%bb%9c%e9%9a%94%e7%a6%bb" aria-label="问题：网络隔离">问题：网络隔离</a></li>
+                <li>
+                    <a href="#%e8%bf%b7%e5%ae%ab%e8%88%ac%e7%9a%84%e4%bb%a3%e7%90%86%e9%85%8d%e7%bd%ae" aria-label="迷宫般的代理配置">迷宫般的代理配置</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%9b%b2%e7%ba%bf%e6%95%91%e5%9b%bd%e5%92%8c%e6%96%b0%e9%97%ae%e9%a2%98" aria-label="曲线救国和新问题">曲线救国和新问题</a><ul>
+                        
+                <li>
+                    <a href="#%e8%b0%83%e7%94%a8-windows-git" aria-label="调用 Windows Git">调用 Windows Git</a></li>
+                <li>
+                    <a href="#%e6%96%b0%e7%93%b6%e9%a2%88%e5%92%8c%e9%97%ae%e9%a2%98" aria-label="新瓶颈和问题">新瓶颈和问题</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%9b%9e%e5%bd%92%e5%88%9d%e5%bf%83%e6%a0%b9%e6%b2%bb-wsl-%e5%8e%9f%e7%94%9f-git" aria-label="回归初心，根治 WSL 原生 Git">回归初心，根治 WSL 原生 Git</a><ul>
+                        
+                <li>
+                    <a href="#%e9%97%ae%e9%a2%98%e5%88%b0%e5%ba%95%e5%87%ba%e5%9c%a8%e5%93%aa" aria-label="问题到底出在哪？">问题到底出在哪？</a></li>
+                <li>
+                    <a href="#%e6%9c%80%e7%bb%88%e9%85%8d%e7%bd%ae" aria-label="最终配置">最终配置</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e7%ac%ac%e5%9b%9b%e9%98%b6%e6%ae%b5%e6%88%98%e6%9e%9c%e4%b8%8e%e5%8f%8d%e6%80%9d" aria-label="第四阶段：战果与反思">第四阶段：战果与反思</a><ul>
+                        
+                <li>
+                    <a href="#%e6%95%88%e6%9e%9c%e6%a3%80%e9%aa%8cclone-linux-%e5%86%85%e6%a0%b8%e4%bb%93%e5%ba%93" aria-label="效果检验：Clone Linux 内核仓库">效果检验：Clone Linux 内核仓库</a></li>
+                <li>
+                    <a href="#%e6%80%bb%e7%bb%93%e4%b8%8e%e6%9c%80%e7%bb%88%e9%85%8d%e7%bd%ae" aria-label="总结与最终配置">总结与最终配置</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>我日常在 WSL中开发，享受着它带来的无缝体验。但最近，一个问题几乎让我放弃它：Git 慢到无法使用。本文记录了我从抓狂到解决问题的全过程，希望能帮你绕开我踩过的所有坑。</p>
+<h2 id="初步尝试与屡屡碰壁">初步尝试与屡屡碰壁<a hidden class="anchor" aria-hidden="true" href="#初步尝试与屡屡碰壁">#</a></h2>
+<p>一切始于我们将一个 C 语言项目从原生 Windows 迁移至 WSL 环境。</p>
+<h3 id="问题网络隔离">问题：网络隔离<a hidden class="anchor" aria-hidden="true" href="#问题网络隔离">#</a></h3>
+<p>项目迁移后，我无法从 WSL 中正常 <code>git clone</code> 或 <code>git push</code> 到远程仓库。</p>
+<blockquote>
+    <p>⚠️ <strong>坑点：WSL 的独立网络栈：</strong>
+WSL 拥有自己的一套虚拟网络，它与宿主机 Windows 并不直接共享 <code>localhost</code> (127.0.0.1)。因此，你在 Windows 上运行的代理服务，对于 WSL 内部的程序来说，并不能通过 <code>localhost</code> 访问到。</p>
+
+  </blockquote><h3 id="迷宫般的代理配置">迷宫般的代理配置<a hidden class="anchor" aria-hidden="true" href="#迷宫般的代理配置">#</a></h3>
+<p>我当时第一反应是在 WSL 中为 Git 配置代理。</p>
+<ol>
+<li>
+<p><strong>尝试一：直接指向 <code>localhost</code>，失败。</strong>
+我尝试在 WSL 的 <code>.gitconfig</code> 中设置 <code>http.proxy</code> 指向 Windows 代理的端口（如 <code>http://127.0.0.1:7890</code>），但连接被拒绝。</p>
+</li>
+<li>
+<p><strong>尝试二：移植代理客户端到 WSL，失败。</strong>
+我试图将代理工具（如 V2Ray）直接在 WSL 内部运行。但这带来了新的问题：复杂的配置、找不到合适的 Linux 版本，以及端口被占用的冲突。</p>
+</li>
+</ol>
+<p>在这条路，我彻底走进了死胡同。</p>
+<h2 id="曲线救国和新问题">曲线救国和新问题<a hidden class="anchor" aria-hidden="true" href="#曲线救国和新问题">#</a></h2>
+<p>在 WSL 原生 Git 走不通后，我决定换个思路。</p>
+<h3 id="调用-windows-git">调用 Windows Git<a hidden class="anchor" aria-hidden="true" href="#调用-windows-git">#</a></h3>
+<p>我利用了 WSL 的一个强大特性：可以调用Windows上的可执行文件。</p>
+<p>我直接在 WSL 命令行中调用 Windows 环境中的 <code>git.exe</code> 来执行所有 Git 操作。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 在 WSL 中调用 Windows 的 Git</span>
+</span></span><span style="display:flex;"><span>/mnt/c/Program<span style="color:#ae81ff">\ </span>Files/Git/bin/git.exe clone <span style="color:#f92672">[</span>repository_url<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>这立刻解决了网络问题。Windows 的 Git 自然地使用了 Windows 的网络配置，Git的clone和push都恢复了正常。</p>
+<blockquote>
+    <p>💡 <strong>为什么可以这样做？</strong>
+WSL 允许你在 Linux 环境中直接调用 Windows 的可执行文件 (<code>.exe</code>)，反之亦然。这是一个非常强大的“胶水”特性，能让你组合利用两个系统的优势。</p>
+
+  </blockquote><hr>
+<h3 id="新瓶颈和问题">新瓶颈和问题<a hidden class="anchor" aria-hidden="true" href="#新瓶颈和问题">#</a></h3>
+<p>在 WSL 中直接调用 Windows Git (<code>git.exe</code>) 会带来两个新瓶颈。</p>
+<blockquote>
+    <p>💡 <strong>背景:</strong>
+此前的方案（在 WSL 中调用 Windows Git）初步解决了“有没有”的问题，但很快就暴露了可用性和性能上的新瓶颈。</p>
+
+  </blockquote><p>一是命令冗长复杂，降低了操作效率。二是跨文件系统的 I/O 损耗，导致性能下降。</p>
+<blockquote>
+    <p>⚠️ <strong>坑点：命令的复杂与分裂</strong></p>
+<p>在 WSL 中，调用 <code>git.exe</code> 需要写很长的路径（如 <code>/mnt/c/.../git.exe</code>），即便使用别名 (alias) 也难以优雅地管理。若为了简化而只用它处理部分操作（如网络推送），则会破坏命令的统一性，在开发者脑中形成两个分裂的 Git，增加心智负担。</p>
+
+  </blockquote><p>这本质上是 WSL 的架构限制所致。</p>
+<blockquote>
+    <p>🔍 <strong>细节：跨文件系统的性能开销</strong>
+WSL 的架构决定了其跨文件系统的性能瓶颈。当 WSL 内的进程（如 <code>bash</code>）操作 Windows 文件（挂载于 <code>/mnt/*</code>）时，或 Windows 进程操作 WSL 文件（位于 <code>\\wsl$\*</code>）时，都会因额外的转换和通信层而产生显著的性能开销。调用 <code>git.exe</code> 正是后一种情况。</p>
+
+  </blockquote><p>结论：必须回归使用 WSL 原生的 Git。</p>
+<h2 id="回归初心根治-wsl-原生-git">回归初心，根治 WSL 原生 Git<a hidden class="anchor" aria-hidden="true" href="#回归初心根治-wsl-原生-git">#</a></h2>
+<p>既然“曲线救国”的路也堵死了，我决定正面解决问题。</p>
+<h3 id="问题到底出在哪">问题到底出在哪？<a hidden class="anchor" aria-hidden="true" href="#问题到底出在哪">#</a></h3>
+<p>我曾怀疑是 WSL 的 NAT (网络地址转换) 导致了性能问题，搜索后探究到发现并非如此。</p>
+<blockquote>
+    <p>🔍 <strong>细节：NAT 并非瓶颈</strong>
+WSL 的虚拟交换机 NAT 性能极高（可达 10Gbps 级别），而我通过代理访问公网的瓶颈在于代理节点带宽和国际出口（约 30Mbps）。真正的瓶颈与 NAT 无关。</p>
+
+  </blockquote><p>那为什么 Clone 大仓库时总是会中断？后来我使用下面的方法解决的问题，发现<strong>问题可能不在网络层，而是在应用协议层，有以下可能。</strong></p>
+<ol>
+<li><strong>协议不兼容</strong>：HTTP/2 协议在通过复杂的代理链路时，其多路复用特性可能因丢包或乱序导致连接重置。</li>
+<li><strong>超时太敏感</strong>：Git 默认的超时机制对网络抖动（Jitter）过于敏感，在跨国网络中容易误判连接失败而主动中断。</li>
+<li><strong>缓冲区太小</strong>：在高延迟网络下，过小的缓冲区导致了过多的网络 I/O 交互，增加了出错的概率。</li>
+</ol>
+<h3 id="最终配置">最终配置<a hidden class="anchor" aria-hidden="true" href="#最终配置">#</a></h3>
+<p>我制定了最终配置可能是针对解决了以上三个可能的协议层问题，</p>
+<p><strong>1.动态获取宿主机 IP</strong></p>
+<p>要让 WSL 里的 Git 找到 Windows 的代理，就必须知道 Windows 的真实 IP。</p>
+<p>我编写了一个简单的脚本，每次启动 shell 时自动获取宿主机 IP，并设置好代理,写入脚本后使用<code>source ~/.bashrc</code>或者<code>source ~/.zshrc</code>使配置生效。</p>
+<blockquote>
+    <p>📝 <strong>获取宿主机 IP 的脚本</strong>
+在你的 <code>.bashrc</code> 或 <code>.zshrc</code> 中加入以下脚本。它会解析 <code>resolv.conf</code> 文件来找到 Windows 主机的 IP，并设置 <code>ALL_PROXY</code> 环境变量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 获取 Windows Host IP 并设置代理</span>
+</span></span><span style="display:flex;"><span>export HOST_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat /etc/resolv.conf | grep nameserver | awk <span style="color:#e6db74">&#39;{print $2}&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>export PROXY_PORT<span style="color:#f92672">=</span><span style="color:#ae81ff">10800</span> <span style="color:#75715e"># 你的 Windows 代理端口</span>
+</span></span><span style="display:flex;"><span>export ALL_PROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;socks5://</span><span style="color:#e6db74">${</span>HOST_IP<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">${</span>PROXY_PORT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 你也可以选择直接修改 git config，但环境变量更灵活</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># git config --global http.proxy &#34;http://${HOST_IP}:${PROXY_PORT}&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># git config --global https.proxy &#34;http://${HOST_IP}:${PROXY_PORT}&#34;</span>
+</span></span></code></pre></div><p>💡 <strong>Windows 11 的镜像网络</strong>：Win11 高版本引入了 Mirrored Networking，它可以让 WSL 与 Windows 共享网络，直接使用 <code>localhost</code> 即可。如果你使用 Win11 ，强烈建议开启此功能，可以省去以上脚本。</p>
+
+  </blockquote><p><strong>2.优化 Git 传输参数</strong></p>
+<p>这是最关键的一步。我在 Git 全局配置中加入了三行配置。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global http.version HTTP/1.1
+</span></span><span style="display:flex;"><span>git config --global http.postBuffer <span style="color:#ae81ff">157286400</span>
+</span></span><span style="display:flex;"><span>git config --global core.lowSpeedLimit <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>git config --global core.lowSpeedTime <span style="color:#ae81ff">999999</span>
+</span></span></code></pre></div><blockquote>
+    <p>🔍 <strong>原理：这三行配置到底做了什么？</strong></p>
+<ul>
+<li><code>http.version HTTP/1.1</code>：强制 Git 降级使用更稳定、更兼容的 HTTP/1.1 协议，避开 HTTP/2 在复杂代理环境下的“水土不服”。</li>
+<li><code>http.postBuffer 157286400</code>：将 <code>POST</code> 请求的缓冲区增大到 150MB。对于 <code>git push</code> 等操作，这意味着 Git 会在内存里准备好一个大文件块再进行单次、大块的传输，显著减少高延迟网络下的交互次数。</li>
+<li><code>core.lowSpeedLimit</code> / <code>core.lowSpeedTime</code>：基本禁用了 Git 自身的超时检测机制，允许连接在网络临时抖动或速度极慢时“苟活”下来，把连接管理的任务完全交给底层的 TCP 协议。</li>
+</ul>
+
+  </blockquote><p><strong>3.使用 Linux 原生文件系统</strong></p>
+<p>这是确保 I/O 性能的铁律。</p>
+<p><strong>永远在 WSL 的主目录 (<code>~</code>) 或其他 Linux 文件系统路径下执行 Git 操作。</strong></p>
+<h2 id="第四阶段战果与反思">第四阶段：战果与反思<a hidden class="anchor" aria-hidden="true" href="#第四阶段战果与反思">#</a></h2>
+<p>配置完成后，我进行了测试。</p>
+<h3 id="效果检验clone-linux-内核仓库">效果检验：Clone Linux 内核仓库<a hidden class="anchor" aria-hidden="true" href="#效果检验clone-linux-内核仓库">#</a></h3>
+<p>我选择 Clone Linux 内核这个巨型仓库 <a href="https://github.com/torvalds/linux.git">Linux Kernel</a>。</p>
+<p>结果令人振奋：</p>
+<ul>
+<li><strong>仓库大小</strong>：5.60 GiB</li>
+<li><strong>耗时</strong>：约 26 分钟</li>
+<li><strong>平均速度</strong>：约 3.43 MiB/s</li>
+<li><strong>过程</strong>：全程稳定，无任何断连或报错。</li>
+</ul>
+<p>这证明了问题已经得到圆满解决。</p>
+<h3 id="总结与最终配置">总结与最终配置<a hidden class="anchor" aria-hidden="true" href="#总结与最终配置">#</a></h3>
+<p>回顾整个过程，解决 WSL 中 Git 性能问题的关键在于找到核心问题，将问题定位到协议问题。</p>
+<blockquote>
+    <p>📝 <strong>最终推荐配置</strong>
+以下是我沉淀下来的最终配置，融合了所有优化和一些额外建议。</p>
+<p><strong>1. Shell 启动脚本 (<code>~/.bashrc</code> 或 <code>~/.zshrc</code>)</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># For Win10 or Win11 without Mirrored Networking</span>
+</span></span><span style="display:flex;"><span>export HOST_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat /etc/resolv.conf | grep nameserver | awk <span style="color:#e6db74">&#39;{print $2}&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>export PROXY_PORT<span style="color:#f92672">=</span><span style="color:#ae81ff">7890</span> <span style="color:#75715e"># 修改为你的代理端口</span>
+</span></span><span style="display:flex;"><span>export ALL_PROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;socks5://</span><span style="color:#e6db74">${</span>HOST_IP<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">${</span>PROXY_PORT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p><strong>2. Git 全局配置 (<code>~/.gitconfig</code>)</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[http]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">postBuffer</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">157286400
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  version = HTTP/1.1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[core]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">lowSpeedLimit</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  lowSpeedTime = 999999</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># [http]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   maxRequests = 5 # 警告：此配置可提高并发，但是我没有试过，可能存在被服务器Ban掉的风险，请谨慎使用</span>
+</span></span></code></pre></div><p>⚠️ <strong>注意</strong>：我移除了之前测试用的 <code>core.fscache</code>，因为它在 Linux 下无效，是 Windows 专用的 Git 缓存配置。</p>
+
+  </blockquote><p>如果仅仅是为了解决 Git 问题无需升级系统，但从长远看，如果条件允许，<strong>我依然推荐升级到 Windows 11</strong>，并开启镜像网络。它能从根本上解决 WSL 与 Windows 的网络差异，一劳永逸地解决 IP 变动、VPN 穿透等诸多网络难题，还能原生支持 Linux GUI 应用，整体开发体验会再上一个台阶。</p>
+<hr>
+<p>以上</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://GlowStonee233.github.io/tags/wsl/">WSL</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/git/">Git</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/windows/">Windows</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">网络配置</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://GlowStonee233.github.io/">GlowStonee的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

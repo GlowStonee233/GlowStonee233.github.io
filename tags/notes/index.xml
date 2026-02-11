@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Notes on GlowStonee的博客</title>
+    <link>https://GlowStonee233.github.io/tags/notes/</link>
+    <description>Recent content in Notes on GlowStonee的博客</description>
+    <generator>Hugo -- 0.154.5</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 27 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://GlowStonee233.github.io/tags/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的 Markdown 语法核心备忘录（含渲染效果）</title>
+      <link>https://GlowStonee233.github.io/posts/2026/%E6%88%91%E7%9A%84-markdown-%E8%AF%AD%E6%B3%95%E6%A0%B8%E5%BF%83%E5%A4%87%E5%BF%98%E5%BD%95%E5%90%AB%E6%B8%B2%E6%9F%93%E6%95%88%E6%9E%9C/</link>
+      <pubDate>Tue, 27 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/2026/%E6%88%91%E7%9A%84-markdown-%E8%AF%AD%E6%B3%95%E6%A0%B8%E5%BF%83%E5%A4%87%E5%BF%98%E5%BD%95%E5%90%AB%E6%B8%B2%E6%9F%93%E6%95%88%E6%9E%9C/</guid>
+      <description>整理一份 Markdown 常用语法清单，并附上直观的渲染效果，作为个人速查备忘录，方便日常写作时快速查阅。</description>
+    </item>
+  </channel>
+</rss>

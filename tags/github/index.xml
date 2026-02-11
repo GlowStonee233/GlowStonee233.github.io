@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>GitHub on GlowStonee的博客</title>
+    <link>https://GlowStonee233.github.io/tags/github/</link>
+    <description>Recent content in GitHub on GlowStonee的博客</description>
+    <generator>Hugo -- 0.154.5</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://GlowStonee233.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>综合功能测试：数学公式与 GitHub 样式</title>
+      <link>https://GlowStonee233.github.io/posts/2026/%E7%BB%BC%E5%90%88%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E4%B8%8E-github-%E6%A0%B7%E5%BC%8F/</link>
+      <pubDate>Tue, 10 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/2026/%E7%BB%BC%E5%90%88%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E4%B8%8E-github-%E6%A0%B7%E5%BC%8F/</guid>
+      <description>&lt;p&gt;本文用于演示数学公式渲染与 GitHub 风格的五种 Alert 警告框，同时包含折叠块和代码文件头效果。&lt;/p&gt;
+&lt;h2 id=&#34;1-数学公式演示&#34;&gt;1. 数学公式演示&lt;/h2&gt;
+&lt;h3 id=&#34;行内公式&#34;&gt;行内公式&lt;/h3&gt;
+&lt;p&gt;这是一个行内公式测试：质能方程 $E = mc^2$。在描述序列时，可以写作 $a_{n_1} \leq a_{n_2} \leq \cdots$。&lt;/p&gt;
+&lt;h3 id=&#34;块级公式&#34;&gt;块级公式&lt;/h3&gt;
+&lt;p&gt;以下是等差数列求和的推导结论：
+&lt;/p&gt;
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$&lt;p&gt;以及基础的分数运算展示：
+&lt;/p&gt;
+$$
+\frac{1}{2} + \frac{1}{3} = \frac{5}{6}
+$$&lt;hr&gt;
+&lt;h2 id=&#34;2-github-警告框测试-alerts&#34;&gt;2. GitHub 警告框测试 (Alerts)&lt;/h2&gt;
+&lt;p&gt;这里演示 GitHub 官方支持的五种警告框样式，用于区分信息的重要程度。&lt;/p&gt;
+
+  
+  &lt;div class=&#34;callout callout-note&#34;&gt;
+      &lt;div class=&#34;callout-icon&#34;&gt;📝&lt;/div&gt;
+      &lt;div class=&#34;callout-content&#34;&gt;&lt;p&gt;这是一个 &lt;strong&gt;NOTE&lt;/strong&gt; 警告框。用于强调用户在快速浏览时也不应忽略的重要信息。&lt;/p&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div class=&#34;callout callout-tip&#34;&gt;
+      &lt;div class=&#34;callout-icon&#34;&gt;💡&lt;/div&gt;
+      &lt;div class=&#34;callout-content&#34;&gt;&lt;p&gt;这是一个 &lt;strong&gt;TIP&lt;/strong&gt; 警告框。用于提供辅助信息，帮助用户更高效地完成任务。&lt;/p&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+  
+
+  
+  &lt;div class=&#34;callout callout-important&#34;&gt;
+      &lt;div class=&#34;callout-icon&#34;&gt;🌟&lt;/div&gt;
+      &lt;div class=&#34;callout-content&#34;&gt;&lt;p&gt;这是一个 &lt;strong&gt;IMPORTANT&lt;/strong&gt; 警告框。对于用户成功完成目标至关重要的关键信息。&lt;/p&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div class=&#34;callout callout-warning&#34;&gt;
+      &lt;div class=&#34;callout-icon&#34;&gt;⚠️&lt;/div&gt;
+      &lt;div class=&#34;callout-content&#34;&gt;&lt;p&gt;这是一个 &lt;strong&gt;WARNING&lt;/strong&gt; 警告框。需要用户立即关注的重要内容，以避免潜在问题。&lt;/p&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;callout callout-caution&#34;&gt;
+      &lt;div class=&#34;callout-icon&#34;&gt;🛑&lt;/div&gt;
+      &lt;div class=&#34;callout-content&#34;&gt;&lt;p&gt;这是一个 &lt;strong&gt;CAUTION&lt;/strong&gt; 警告框。针对某些操作可能带来的负面后果进行提醒。&lt;/p&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;&lt;hr&gt;
+&lt;h2 id=&#34;3-代码文件头与逻辑演示&#34;&gt;3. 代码文件头与逻辑演示&lt;/h2&gt;
+&lt;p&gt;演示如何通过 &lt;code&gt;codefile&lt;/code&gt; 展示带有路径的代码块。&lt;/p&gt;
+
+
+
+&lt;div class=&#34;code-file-header&#34;&gt;
+    
+    
+    &lt;span class=&#34;file-icon&#34;&gt;📄&lt;/span&gt;
+    
+    
+    &lt;span class=&#34;file-name&#34;&gt;math/summation.py&lt;/span&gt;
+
+&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;check_sum&lt;/span&gt;(n):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# 使用公式 n(n+1)/2 验证&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    formula_result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;//&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    loop_result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sum(range(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, n &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; formula_result &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; loop_result
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;验证结果: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;check_sum(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;)&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h2 id=&#34;4-交互式折叠块-details&#34;&gt;4. 交互式折叠块 (Details)&lt;/h2&gt;
+&lt;p&gt;用于隐藏复杂的证明过程或次要信息。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Git 配置代理备忘录：解决 GitHub 连接超时与访问失败问题</title>
+      <link>https://GlowStonee233.github.io/posts/2026/git-%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E5%A4%87%E5%BF%98%E5%BD%95%E8%A7%A3%E5%86%B3-github-%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E4%B8%8E%E8%AE%BF%E9%97%AE%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 27 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/2026/git-%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86%E5%A4%87%E5%BF%98%E5%BD%95%E8%A7%A3%E5%86%B3-github-%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E4%B8%8E%E8%AE%BF%E9%97%AE%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98/</guid>
+      <description>记录了如何通过配置 SSH 和 HTTPS 代理，一劳永逸地解决因网络问题导致的 Git 推送或拉取 GitHub 仓库失败的问题。</description>
+    </item>
+    <item>
+      <title>Git &amp; GitHub 高效入门指南：从代理加速到 SSH 免密</title>
+      <link>https://GlowStonee233.github.io/posts/2026/git-github-%E9%AB%98%E6%95%88%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%E4%BB%8E%E4%BB%A3%E7%90%86%E5%8A%A0%E9%80%9F%E5%88%B0-ssh-%E5%85%8D%E5%AF%86/</link>
+      <pubDate>Mon, 26 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://GlowStonee233.github.io/posts/2026/git-github-%E9%AB%98%E6%95%88%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%E4%BB%8E%E4%BB%A3%E7%90%86%E5%8A%A0%E9%80%9F%E5%88%B0-ssh-%E5%85%8D%E5%AF%86/</guid>
+      <description>一篇高效率的 Git &amp;amp; GitHub 新手入门备忘录。内容涵盖初始配置、代理加速、HTTPS 核心流程、SSH 免密配置，并附带常用命令速查表。</description>
+    </item>
+  </channel>
+</rss>

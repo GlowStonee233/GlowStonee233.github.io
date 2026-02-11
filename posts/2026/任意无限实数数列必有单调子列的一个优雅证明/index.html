@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>任意无限实数数列必有单调子列的一个优雅证明 | GlowStonee的博客</title>
+<meta name="keywords" content="Bolzano-Weierstrass, 数学分析, 峰值">
+<meta name="description" content="本文利用“峰值”概念，对任意无限实数数列中必然存在单调子列这一经典定理给出了一个清晰直观的证明。">
+<meta name="author" content="">
+<link rel="canonical" href="https://GlowStonee233.github.io/posts/2026/%E4%BB%BB%E6%84%8F%E6%97%A0%E9%99%90%E5%AE%9E%E6%95%B0%E6%95%B0%E5%88%97%E5%BF%85%E6%9C%89%E5%8D%95%E8%B0%83%E5%AD%90%E5%88%97%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E8%AF%81%E6%98%8E/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e56497cef506dcfab4678b00abe90cd98f1c6fb15698a58791a53940a8e16f8d.css" integrity="sha256-5WSXzvUG3Pq0Z4sAq&#43;kM2Y8cb7FWmKWHkaU5QKjhb40=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://GlowStonee233.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://GlowStonee233.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://GlowStonee233.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://GlowStonee233.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://GlowStonee233.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://GlowStonee233.github.io/posts/2026/%E4%BB%BB%E6%84%8F%E6%97%A0%E9%99%90%E5%AE%9E%E6%95%B0%E6%95%B0%E5%88%97%E5%BF%85%E6%9C%89%E5%8D%95%E8%B0%83%E5%AD%90%E5%88%97%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E8%AF%81%E6%98%8E/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+          crossorigin="anonymous">
+
+    
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+            crossorigin="anonymous"></script>
+
+    
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+            crossorigin="anonymous"
+            onload="renderMath();"></script>
+
+    
+    <script>
+        function renderMath() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},   
+                    {left: "$",  right: "$",  display: false}   
+                ],
+                throwOnError: false  
+            });
+        }
+    </script><meta property="og:url" content="https://GlowStonee233.github.io/posts/2026/%E4%BB%BB%E6%84%8F%E6%97%A0%E9%99%90%E5%AE%9E%E6%95%B0%E6%95%B0%E5%88%97%E5%BF%85%E6%9C%89%E5%8D%95%E8%B0%83%E5%AD%90%E5%88%97%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E8%AF%81%E6%98%8E/">
+  <meta property="og:site_name" content="GlowStonee的博客">
+  <meta property="og:title" content="任意无限实数数列必有单调子列的一个优雅证明">
+  <meta property="og:description" content="本文利用“峰值”概念，对任意无限实数数列中必然存在单调子列这一经典定理给出了一个清晰直观的证明。">
+  <meta property="og:locale" content="zh-cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-01T13:29:51+00:00">
+    <meta property="article:modified_time" content="2026-02-01T13:29:51+00:00">
+    <meta property="article:tag" content="Bolzano-Weierstrass">
+    <meta property="article:tag" content="数学分析">
+    <meta property="article:tag" content="峰值">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="任意无限实数数列必有单调子列的一个优雅证明">
+<meta name="twitter:description" content="本文利用“峰值”概念，对任意无限实数数列中必然存在单调子列这一经典定理给出了一个清晰直观的证明。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://GlowStonee233.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "任意无限实数数列必有单调子列的一个优雅证明",
+      "item": "https://GlowStonee233.github.io/posts/2026/%E4%BB%BB%E6%84%8F%E6%97%A0%E9%99%90%E5%AE%9E%E6%95%B0%E6%95%B0%E5%88%97%E5%BF%85%E6%9C%89%E5%8D%95%E8%B0%83%E5%AD%90%E5%88%97%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E8%AF%81%E6%98%8E/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "任意无限实数数列必有单调子列的一个优雅证明",
+  "name": "任意无限实数数列必有单调子列的一个优雅证明",
+  "description": "本文利用“峰值”概念，对任意无限实数数列中必然存在单调子列这一经典定理给出了一个清晰直观的证明。",
+  "keywords": [
+    "Bolzano-Weierstrass", "数学分析", "峰值"
+  ],
+  "articleBody": "单调子列定理 任意无限实数数列，都必然存在一个单调子列。\n📝 定义：单调子列 (Monotone Subsequence) 子列中的项满足 $a_{n_1} \\leq a_{n_2} \\leq \\cdots$ (单调不减) 或 $a_{n_1} \\geq a_{n_2} \\geq \\cdots$ (单调不增)。注意，它包含了相等的情况 (非严格单调)。\n本证明的核心是引入“峰值” (peak) 这一概念，并基于峰值的数量进行分类讨论。\n📝 定义：峰值 (Peak) 数列中的一项 $a_k$ 是一个峰值，如果它不小于其后出现的任何项。即，对所有 $n \u003e k$，都有 $a_k \\geq a_n$。\n💡 直觉：什么是峰值？ 想象一座山脉，一个峰值就是一个山顶，其后只有下坡或平路，再无更高的山峰。\n数列 $\\{5, 4, 3, 2, 1\\}$ 中，每一项都是峰值。 数列 $\\{1, 2, 3, 4, 5\\}$ 中，没有任何一项是峰值。 数列 $\\{1, 5, 2, 4, 3\\}$ 中，$5$ 和 $4$ 是峰值。 证明的逻辑分为以下两种互斥且完备的情况。\n情况一：数列存在无限个峰值。\n这些峰值本身就构成一个单调不增 (non-increasing) 的子列。\n🔍 说明 设这些峰值的下标序列为 $k_1 \u003c k_2 \u003c k_3 \u003c \\cdots$。根据峰值的定义，对于任意一个峰值 $a_{k_i}$，它必然不小于其后的所有项。因为 $k_{i+1} \u003e k_i$，所以 $a_{k_{i+1}}$ 是 $a_{k_i}$ “其后的项”之一。因此，必然有 $a_{k_i} \\geq a_{k_{i+1}}$。这个关系对所有 $i$ 都成立，故子列 $\\{ a_{k_i} \\}$ 是单调不增的。\n情况二：数列仅有有限个（或零个）峰值。\n在这种情况下，我们可以构造出一个严格单调递增 (strictly increasing) 的子列。\n🔍 说明\n设最后一个峰值的下标为 $K$ (如果不存在峰值，则令 $K=0$) 。 从 $n_1 = K+1$ 开始，我们知道 $a_{n_1}$ 不是峰值。 根据“非峰值”的定义，必然存在一个下标 $n_2 \u003e n_1$，使得 $a_{n_2} \u003e a_{n_1}$。 同理，$a_{n_2}$ 也不是峰值，所以必然存在 $n_3 \u003e n_2$，使得 $a_{n_3} \u003e a_{n_2}$。 重复此过程，我们就能构建一个下标序列 $n_1 \u003c n_2 \u003c n_3 \u003c \\cdots$，其对应的子列 $\\{ a_{n_i} \\}$ 满足 $a_{n_1} \u003c a_{n_2} \u003c a_{n_3} \u003c \\cdots$，是一个严格单调递增子列。 结论\n无论哪种情况，我们总能成功找到一个单调子列。定理得证。\n💡 背景：与 Bolzano-Weierstrass 定理的关系 这个单调子列定理是证明“有界数列必有收敛子列”（即 Bolzano-Weierstrass 定理）的关键一步。证明思路是：首先利用本定理从任意有界数列中找到一个单调子列，然后根据“有界单调数列必收敛”这一准则，得出该子列必然收敛。\n",
+  "wordCount" : "157",
+  "inLanguage": "en",
+  "datePublished": "2026-02-01T13:29:51.408Z",
+  "dateModified": "2026-02-01T13:29:51.408Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://GlowStonee233.github.io/posts/2026/%E4%BB%BB%E6%84%8F%E6%97%A0%E9%99%90%E5%AE%9E%E6%95%B0%E6%95%B0%E5%88%97%E5%BF%85%E6%9C%89%E5%8D%95%E8%B0%83%E5%AD%90%E5%88%97%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BC%98%E9%9B%85%E8%AF%81%E6%98%8E/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GlowStonee的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://GlowStonee233.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://GlowStonee233.github.io/" accesskey="h" title="GlowStonee的博客 (Alt + H)">GlowStonee的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://GlowStonee233.github.io/search/" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍 搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      任意无限实数数列必有单调子列的一个优雅证明
+    </h1>
+    <div class="post-meta"><span title='2026-02-01 13:29:51.408 +0000 UTC'>February 1, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="单调子列定理"><strong>单调子列定理</strong><a hidden class="anchor" aria-hidden="true" href="#单调子列定理">#</a></h2>
+<p>任意无限实数数列，都必然存在一个单调子列。</p>
+<blockquote>
+    <p>📝 <strong>定义：单调子列 (Monotone Subsequence)</strong>
+子列中的项满足 $a_{n_1} \leq a_{n_2} \leq \cdots$ (单调不减) 或 $a_{n_1} \geq a_{n_2} \geq \cdots$ (单调不增)。注意，它包含了相等的情况 (非严格单调)。</p>
+
+  </blockquote><p>本证明的核心是引入“峰值” (peak) 这一概念，并基于峰值的数量进行分类讨论。</p>
+<blockquote>
+    <p>📝 <strong>定义：峰值 (Peak)</strong>
+数列中的一项 $a_k$ 是一个峰值，如果它不小于其后出现的任何项。即，对所有 $n > k$，都有 $a_k \geq a_n$。</p>
+<p>💡 <strong>直觉：什么是峰值？</strong>
+想象一座山脉，一个峰值就是一个山顶，其后只有下坡或平路，再无更高的山峰。</p>
+<ul>
+<li>数列 $\{5, 4, 3, 2, 1\}$ 中，每一项都是峰值。</li>
+<li>数列 $\{1, 2, 3, 4, 5\}$ 中，没有任何一项是峰值。</li>
+<li>数列 $\{1, 5, 2, 4, 3\}$ 中，$5$ 和 $4$ 是峰值。</li>
+</ul>
+
+  </blockquote><p>证明的逻辑分为以下两种互斥且完备的情况。</p>
+<p><strong>情况一：数列存在无限个峰值。</strong><br>
+这些峰值本身就构成一个单调不增 (non-increasing) 的子列。</p>
+<blockquote>
+    <p>🔍 <strong>说明</strong>
+设这些峰值的下标序列为 $k_1 < k_2 < k_3 < \cdots$。根据峰值的定义，对于任意一个峰值 $a_{k_i}$，它必然不小于其后的所有项。因为 $k_{i+1} > k_i$，所以 $a_{k_{i+1}}$ 是 $a_{k_i}$ “其后的项”之一。因此，必然有 $a_{k_i} \geq a_{k_{i+1}}$。这个关系对所有 $i$ 都成立，故子列 $\{ a_{k_i} \}$ 是单调不增的。</p>
+
+  </blockquote><p><strong>情况二：数列仅有有限个（或零个）峰值。</strong><br>
+在这种情况下，我们可以构造出一个严格单调递增 (strictly increasing) 的子列。</p>
+<blockquote>
+    <p>🔍 <strong>说明</strong></p>
+<ol>
+<li>设最后一个峰值的下标为 $K$ (如果不存在峰值，则令 $K=0$) 。</li>
+<li>从 $n_1 = K+1$ 开始，我们知道 $a_{n_1}$ 不是峰值。</li>
+<li>根据“非峰值”的定义，必然存在一个下标 $n_2 > n_1$，使得 $a_{n_2} > a_{n_1}$。</li>
+<li>同理，$a_{n_2}$ 也不是峰值，所以必然存在 $n_3 > n_2$，使得 $a_{n_3} > a_{n_2}$。</li>
+<li>重复此过程，我们就能构建一个下标序列 $n_1 < n_2 < n_3 < \cdots$，其对应的子列 $\{ a_{n_i} \}$ 满足 $a_{n_1} < a_{n_2} < a_{n_3} < \cdots$，是一个严格单调递增子列。</li>
+</ol>
+
+  </blockquote><p><strong>结论</strong><br>
+无论哪种情况，我们总能成功找到一个单调子列。定理得证。</p>
+<blockquote>
+    <p>💡 <strong>背景：与 Bolzano-Weierstrass 定理的关系</strong>
+这个单调子列定理是证明“有界数列必有收敛子列”（即 Bolzano-Weierstrass 定理）的关键一步。证明思路是：首先利用本定理从任意有界数列中找到一个单调子列，然后根据“有界单调数列必收敛”这一准则，得出该子列必然收敛。</p>
+
+  </blockquote>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://GlowStonee233.github.io/tags/bolzano-weierstrass/">Bolzano-Weierstrass</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90/">数学分析</a></li>
+      <li><a href="https://GlowStonee233.github.io/tags/%E5%B3%B0%E5%80%BC/">峰值</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://GlowStonee233.github.io/">GlowStonee的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
